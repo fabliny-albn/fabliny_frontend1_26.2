@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Verde Vida</title>
+    <meta name="description" content="Entre na sua conta da loja Verde Vida.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/responsivo.css">
+</head>
+<body class="pagina-formulario">
+
+    <header class="cabecalho">
+        <div class="container">
+            <a href="index.html" class="marca-loja">
+                <img src="img/logo.png" alt="Logotipo da loja Verde Vida, um vaso com folhas">
+                <span>Verde Vida</span>
+            </a>
+
+            <input type="checkbox" id="alternar-menu" class="alternar-menu">
+            <label for="alternar-menu" class="rotulo-menu">
+                <span class="somente-leitor-de-tela">Abrir ou fechar o menu</span>
+                <span class="barra-menu" aria-hidden="true"></span><span class="barra-menu" aria-hidden="true"></span><span class="barra-menu" aria-hidden="true"></span>
+            </label>
+
+            <nav class="menu-principal" aria-label="Navegação principal">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="loja.html">Loja</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="login.html" aria-current="page">Login</a></li>
+                    <li><a href="perfil.html">Perfil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="cartao-formulario">
+            <h1>Entrar na conta</h1>
+            <p>Informe seu e-mail e senha para acessar sua conta Verde Vida.</p>
+
+            <form action="#" method="post" id="form-login">
+                <fieldset>
+                    <legend>Login</legend>
+
+                    <div class="campo">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" id="login-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="login-senha">Senha</label>
+                        <input type="password" id="login-senha" name="senha" placeholder="Digite sua senha" autocomplete="current-password" minlength="8" required>
+                    </div>
+
+                    <div class="campo campo-opcoes">
+                        <label for="login-lembrar">
+                            <input type="checkbox" id="login-lembrar" name="lembrar">
+                            Lembrar de mim
+                        </label>
+                    </div>
+
+                    <button type="submit" class="botao botao-bloco">Entrar</button>
+                </fieldset>
+            </form>
+
+            <p class="rodape-formulario">Ainda não tem conta? <a href="cadastro.html">Cadastre-se</a></p>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="container">
+            <div class="bloco-rodape">
+                <h2>Verde Vida</h2>
+                <p>Plantas e jardim para todo tipo de casa.</p>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Links rápidos</h2>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="loja.html">Loja</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                </ul>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Contato</h2>
+                <p>(48) 3333-0000</p>
+                <p>contato@verdevida.exemplo.com.br</p>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Administração</h2>
+                <p><a href="relatorios.html">Painel administrativo</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
