@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja - Verde Vida</title>
+    <meta name="description" content="Catálogo completo e carrinho de compras da loja Verde Vida.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/responsivo.css">
+</head>
+<body>
+
+    <header class="cabecalho">
+        <div class="container">
+            <a href="index.html" class="marca-loja">
+                <img src="img/logo.png" alt="Logotipo da loja Verde Vida, um vaso com folhas">
+                <span>Verde Vida</span>
+            </a>
+
+            <input type="checkbox" id="alternar-menu" class="alternar-menu">
+            <label for="alternar-menu" class="rotulo-menu">
+                <span class="somente-leitor-de-tela">Abrir ou fechar o menu</span>
+                <span class="barra-menu" aria-hidden="true"></span><span class="barra-menu" aria-hidden="true"></span><span class="barra-menu" aria-hidden="true"></span>
+            </label>
+
+            <nav class="menu-principal" aria-label="Navegação principal">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="loja.html" aria-current="page">Loja</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="perfil.html">Perfil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+
+        <section class="secao" id="catalogo">
+            <div class="container">
+                <h1>Catálogo</h1>
+
+                <div class="layout-loja">
+
+                    <aside>
+                        <form class="filtros-loja" aria-label="Filtros de produtos" action="#" method="get">
+                            <h2>Filtrar</h2>
+
+                            <div class="campo">
+                                <label for="filtro-busca">Buscar produto</label>
+                                <input type="search" id="filtro-busca" name="busca" placeholder="Ex.: samambaia">
+                            </div>
+
+                            <div class="campo">
+                                <label for="filtro-categoria">Categoria</label>
+                                <select id="filtro-categoria" name="categoria">
+                                    <option value="todas" selected>Todas as categorias</option>
+                                    <option value="plantas">Plantas</option>
+                                    <option value="vasos">Vasos</option>
+                                    <option value="insumos">Ferramentas e insumos</option>
+                                </select>
+                            </div>
+
+                            <div class="campo">
+                                <label for="filtro-preco-min">Preço mínimo (R$)</label>
+                                <input type="number" id="filtro-preco-min" name="preco_min" min="0" step="1" placeholder="0">
+                            </div>
+
+                            <div class="campo">
+                                <label for="filtro-preco-max">Preço máximo (R$)</label>
+                                <input type="number" id="filtro-preco-max" name="preco_max" min="0" step="1" placeholder="100">
+                            </div>
+
+                            <div class="campo">
+                                <label for="filtro-ordenar">Ordenar por</label>
+                                <select id="filtro-ordenar" name="ordenar">
+                                    <option value="relevancia">Mais relevantes</option>
+                                    <option value="menor-preco">Menor preço</option>
+                                    <option value="maior-preco">Maior preço</option>
+                                    <option value="nome">Nome (A-Z)</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="botao botao-bloco">Aplicar filtros</button>
+                        </form>
+                    </aside>
+
+                    <div class="grade-produtos">
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-suculenta.png" alt="Vaso pequeno com suculenta Echeveria">
+                            <div class="info-produto">
+                                <h3>Suculenta Echeveria</h3>
+                                <p class="descricao-produto">Suculenta de fácil cuidado, ideal para ambientes internos com boa luz indireta.</p>
+                                <p class="preco-produto">R$ 24,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-samambaia.png" alt="Samambaia americana em vaso de cerâmica">
+                            <div class="info-produto">
+                                <h3>Samambaia Americana</h3>
+                                <p class="descricao-produto">Folhagem exuberante, gosta de ambientes úmidos e sombra parcial.</p>
+                                <p class="preco-produto">R$ 39,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-jiboia.png" alt="Jiboia (Pothos) com folhas pendentes em vaso">
+                            <div class="info-produto">
+                                <h3>Jiboia (Pothos)</h3>
+                                <p class="descricao-produto">Planta trepadeira resistente, perfeita para prateleiras e suportes suspensos.</p>
+                                <p class="preco-produto">R$ 29,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-espada-sao-jorge.png" alt="Espada-de-São-Jorge em vaso de barro">
+                            <div class="info-produto">
+                                <h3>Espada-de-São-Jorge</h3>
+                                <p class="descricao-produto">Planta resistente e de baixa manutenção, símbolo de proteção no jardim.</p>
+                                <p class="preco-produto">R$ 34,50</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-orquidea.png" alt="Orquídea Phalaenopsis rosa em vaso transparente">
+                            <div class="info-produto">
+                                <h3>Orquídea Phalaenopsis</h3>
+                                <p class="descricao-produto">Flores delicadas e duradouras, ótima opção de presente.</p>
+                                <p class="preco-produto">R$ 59,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-cacto.png" alt="Mini cacto mandacaru em vaso pequeno">
+                            <div class="info-produto">
+                                <h3>Cacto Mandacaru Mini</h3>
+                                <p class="descricao-produto">Precisa de pouca água e muita luz solar direta, ótimo para quem viaja bastante.</p>
+                                <p class="preco-produto">R$ 19,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-terrario.png" alt="Terrário de vidro com pequenas plantas dentro">
+                            <div class="info-produto">
+                                <h3>Terrário de Vidro</h3>
+                                <p class="descricao-produto">Mini jardim fechado, de baixa manutenção e grande efeito decorativo.</p>
+                                <p class="preco-produto">R$ 79,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-vaso-ceramica.png" alt="Vaso de cerâmica vazio na cor marrom">
+                            <div class="info-produto">
+                                <h3>Vaso de Cerâmica Pequeno</h3>
+                                <p class="descricao-produto">Vaso de cerâmica com furo de drenagem, tamanho ideal para suculentas.</p>
+                                <p class="preco-produto">R$ 22,00</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-regador.png" alt="Regador de metal pequeno">
+                            <div class="info-produto">
+                                <h3>Regador de Metal</h3>
+                                <p class="descricao-produto">Regador compacto com bico fino, ideal para vasos pequenos e médios.</p>
+                                <p class="preco-produto">R$ 32,00</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-adubo.png" alt="Pacote de adubo orgânico de um quilo">
+                            <div class="info-produto">
+                                <h3>Adubo Orgânico 1kg</h3>
+                                <p class="descricao-produto">Adubo natural rico em nutrientes, indicado para todas as espécies.</p>
+                                <p class="preco-produto">R$ 18,50</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-substrato.png" alt="Pacote de substrato para vasos">
+                            <div class="info-produto">
+                                <h3>Substrato para Vasos</h3>
+                                <p class="descricao-produto">Mistura balanceada de terra, areia e matéria orgânica, pronta pra uso.</p>
+                                <p class="preco-produto">R$ 15,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                        <article class="cartao-produto">
+                            <img src="img/prod-kit-jardinagem.png" alt="Kit básico de jardinagem com ferramentas pequenas">
+                            <div class="info-produto">
+                                <h3>Kit de Jardinagem Básico</h3>
+                                <p class="descricao-produto">Pá, tesoura de poda e luva, tudo que você precisa pra começar a cuidar das plantas.</p>
+                                <p class="preco-produto">R$ 44,90</p>
+                                <button type="button" class="botao botao-bloco">Adicionar ao carrinho</button>
+                            </div>
+                        </article>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="secao secao-destacada" id="carrinho">
+            <div class="container">
+                <h2>Carrinho de compras</h2>
+
+                <form action="#" method="post" id="form-carrinho">
+                    <table class="tabela-carrinho">
+                        <caption>Itens no carrinho</caption>
+                        <thead>
+                            <tr>
+                                <th scope="col">Produto</th>
+                                <th scope="col">Quantidade</th>
+                                <th scope="col">Preço unitário</th>
+                                <th scope="col">Subtotal</th>
+                                <th scope="col">Remover</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Suculenta Echeveria</td>
+                                <td>2</td>
+                                <td>R$ 24,90</td>
+                                <td>R$ 49,80</td>
+                                <td><button type="button" class="botao botao-perigo">Remover</button></td>
+                            </tr>
+                            <tr>
+                                <td>Vaso de Cerâmica Pequeno</td>
+                                <td>1</td>
+                                <td>R$ 22,00</td>
+                                <td>R$ 22,00</td>
+                                <td><button type="button" class="botao botao-perigo">Remover</button></td>
+                            </tr>
+                            <tr>
+                                <td>Adubo Orgânico 1kg</td>
+                                <td>3</td>
+                                <td>R$ 18,50</td>
+                                <td>R$ 55,50</td>
+                                <td><button type="button" class="botao botao-perigo">Remover</button></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3">Total</td>
+                                <td>R$ 127,30</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <button type="submit" class="botao botao-bloco">Finalizar compra</button>
+                </form>
+
+                <!-- mensagem de confirmacao escondida; ver README para saber como exibi-la -->
+                <div class="confirmacao-pedido" id="confirmacao-compra" hidden>
+                    <h2>Compra finalizada!</h2>
+                    <p>Seu pedido <strong>CP001</strong> foi confirmado com sucesso. Você vai receber um e-mail com os detalhes da entrega em breve.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="rodape">
+        <div class="container">
+            <div class="bloco-rodape">
+                <h2>Verde Vida</h2>
+                <p>Plantas e jardim para todo tipo de casa.</p>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Links rápidos</h2>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="cadastro.html">Cadastro</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Contato</h2>
+                <p>(48) 3333-0000</p>
+                <p>contato@verdevida.exemplo.com.br</p>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Administração</h2>
+                <p><a href="relatorios.html">Painel administrativo</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
