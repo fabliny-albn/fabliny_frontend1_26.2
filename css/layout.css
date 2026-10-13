@@ -1,0 +1,207 @@
+/* layout.css
+   Estrutura geral das paginas: cabecalho, menu, main, rodape e as
+   grades (grid/flex) usadas para organizar o conteudo. */
+
+.container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.2em;
+}
+
+/* ---------- cabecalho ---------- */
+
+.cabecalho {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: var(--creme);
+    border-bottom: 2px solid var(--verde-claro);
+}
+
+.cabecalho .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+}
+
+.marca-loja {
+    display: flex;
+    align-items: center;
+}
+
+.marca-loja img {
+    width: 48px;
+    height: 48px;
+    margin-right: 0.6em;
+}
+
+.marca-loja span {
+    font-family: var(--fonte-titulo);
+    font-size: 1.4em;
+    color: var(--verde-escuro);
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* espaco pra pagina nao ficar escondida atras do cabecalho fixo */
+main {
+    padding-top: 92px;
+}
+
+/* ---------- menu de navegacao ---------- */
+
+/* o checkbox e o label do hamburguer ficam escondidos no desktop,
+   so aparecem na versao responsiva (ver responsivo.css) */
+.alternar-menu {
+    display: none;
+}
+.rotulo-menu {
+    display: none;
+}
+
+.menu-principal ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+}
+
+.menu-principal li {
+    margin-left: 1.6em;
+}
+
+.menu-principal a {
+    font-weight: 700;
+    padding: 0.3em 0.2em;
+    border-bottom: 3px solid transparent;
+}
+
+.menu-principal a[aria-current="page"] {
+    border-bottom: 3px solid var(--verde-escuro);
+    color: var(--verde-escuro);
+}
+
+/* ---------- secoes genericas ---------- */
+
+.secao {
+    padding: 2.5em 0;
+}
+
+.secao-destaque {
+    background-color: var(--verde-fundo);
+}
+
+.secao-destacada {
+    background-color: var(--verde-fundo);
+}
+
+.secao-destaque .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 3em;
+    padding-bottom: 3em;
+}
+
+.secao-destaque img.logo-grande {
+    width: 120px;
+    height: 120px;
+    margin-bottom: 0.8em;
+}
+
+/* sobre a loja: texto de um lado, imagens do outro */
+.grade-sobre {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    grid-gap: 1.5em;
+    align-items: center;
+}
+
+.grade-sobre .imagens-sobre {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
+
+/* galeria de produtos em grid */
+.grade-produtos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1.5em;
+}
+
+/* ---------- rodape ---------- */
+
+.rodape {
+    background-color: var(--verde-escuro);
+    color: var(--verde-fundo);
+    padding: 2em 0;
+}
+
+.rodape .container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.rodape .bloco-rodape {
+    margin-bottom: 1em;
+    margin-right: 1.5em;
+}
+
+.rodape h2 {
+    color: var(--amarelo);
+    font-size: 1.15em;
+}
+
+.rodape a {
+    color: var(--verde-fundo);
+}
+
+.rodape a:hover {
+    color: var(--amarelo);
+}
+
+/* ---------- paginas de formulario (cadastro/login/perfil) ---------- */
+
+.pagina-formulario main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 3em;
+}
+
+.cartao-formulario {
+    width: 100%;
+    max-width: 480px;
+    margin-top: 1em;
+}
+
+.cartao-formulario-perfil {
+    margin-bottom: 2em;
+}
+
+.secao-pedidos {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* ---------- loja.html: filtros + grade de produtos ---------- */
+
+.layout-loja {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    grid-gap: 1.5em;
+}
+
+/* ---------- carrinho ---------- */
+
+.tabela-carrinho {
+    width: 100%;
+}
