@@ -1,0 +1,123 @@
+/* relatorios.css
+   Estilo exclusivo da pagina relatorios.html (area administrativa).
+   O cabecalho e rodape dessa pagina sao diferentes do resto do site. */
+
+.cabecalho-admin {
+    background-color: var(--marrom);
+    color: var(--creme);
+    padding: 0.8em 0;
+    border-bottom: 3px solid var(--verde-escuro);
+}
+
+.cabecalho-admin .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.cabecalho-admin nav {
+    margin-top: 0.3em;
+}
+
+.cabecalho-admin h1 {
+    color: var(--creme);
+    font-size: 1.3em;
+}
+
+.cabecalho-admin .selo-admin {
+    background-color: var(--amarelo);
+    color: var(--marrom);
+    font-weight: bold;
+    padding: 0.3em 0.8em;
+    border-radius: 4px;
+    font-size: 0.85em;
+}
+
+.emissao-relatorio {
+    font-size: 0.85em;
+    color: var(--verde-fundo);
+}
+
+main.conteudo-admin {
+    padding-top: 1.5em;
+}
+
+.bloco-relatorio {
+    margin-bottom: 2.5em;
+}
+
+.busca-admin {
+    display: flex;
+    align-items: flex-end;
+    background-color: var(--branco);
+    border: 1px solid var(--marrom-claro);
+    padding: 1em;
+    border-radius: 8px;
+    margin-bottom: 1em;
+    flex-wrap: wrap;
+}
+
+.busca-admin .campo {
+    margin-bottom: 0.6em;
+    margin-right: 1em;
+    flex: 1 1 180px;
+}
+
+.busca-admin button {
+    margin-bottom: 0.6em;
+}
+
+.rodape-admin {
+    background-color: var(--marrom);
+    color: var(--creme);
+    text-align: center;
+    padding: 1em 0;
+}
+
+/* ---------- estilo exclusivo de impressao ---------- */
+@media print {
+
+    .cabecalho-admin {
+        background-color: var(--branco);
+        color: var(--texto);
+        border-bottom: 2px solid var(--texto);
+    }
+
+    .cabecalho-admin h1,
+    .cabecalho-admin .selo-admin,
+    .emissao-relatorio {
+        color: var(--texto);
+        background-color: transparent;
+    }
+
+    .busca-admin,
+    .botao {
+        display: none;
+    }
+
+    main.conteudo-admin {
+        padding-top: 0;
+    }
+
+    table {
+        width: 100%;
+        border: 1px solid #000;
+    }
+
+    th, td {
+        border: 1px solid #000;
+        color: #000;
+    }
+
+    thead th {
+        background-color: #ddd;
+        color: #000;
+    }
+
+    .rodape-admin {
+        background-color: var(--branco);
+        color: var(--texto);
+        border-top: 1px solid #000;
+    }
+}
