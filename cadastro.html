@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Verde Vida</title>
+    <meta name="description" content="Cadastre-se na loja Verde Vida.">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/responsivo.css">
+</head>
+<body class="pagina-formulario">
+
+    <header class="cabecalho">
+        <div class="container">
+            <a href="index.html" class="marca-loja">
+                <img src="img/logo.png" alt="Logotipo da loja Verde Vida, um vaso com folhas">
+                <span>Verde Vida</span>
+            </a>
+
+            <input type="checkbox" id="alternar-menu" class="alternar-menu">
+            <label for="alternar-menu" class="rotulo-menu">
+                <span class="somente-leitor-de-tela">Abrir ou fechar o menu</span>
+                <span class="barra-menu" aria-hidden="true"></span><span class="barra-menu" aria-hidden="true"></span><span class="barra-menu" aria-hidden="true"></span>
+            </label>
+
+            <nav class="menu-principal" aria-label="Navegação principal">
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="loja.html">Loja</a></li>
+                    <li><a href="cadastro.html" aria-current="page">Cadastro</a></li>
+                    <li><a href="login.html">Login</a></li>
+                    <li><a href="perfil.html">Perfil</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="cartao-formulario">
+            <h1>Criar conta</h1>
+            <p>Cadastre-se para acompanhar seus pedidos e salvar seus dados para a próxima compra.</p>
+
+            <form action="#" method="post" id="form-cadastro">
+                <fieldset>
+                    <legend>Dados de cadastro</legend>
+
+                    <div class="campo">
+                        <label for="cad-nome">Nome completo</label>
+                        <input type="text" id="cad-nome" name="nome" placeholder="Digite seu nome completo" autocomplete="name" required minlength="3">
+                    </div>
+
+                    <div class="campo">
+                        <label for="cad-email">E-mail</label>
+                        <input type="email" id="cad-email" name="email" placeholder="seu@email.com" autocomplete="email" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cad-cpf">CPF</label>
+                        <input type="text" id="cad-cpf" name="cpf" placeholder="000.000.000-00" autocomplete="off" inputmode="numeric" pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}" title="Formato esperado: 000.000.000-00" required>
+                        <small class="ajuda">Formato: 000.000.000-00</small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cad-senha">Senha</label>
+                        <input type="password" id="cad-senha" name="senha" placeholder="Mínimo de 8 caracteres" autocomplete="new-password" minlength="8" required>
+                        <small class="ajuda">Use pelo menos 8 caracteres.</small>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cad-confirmar-senha">Confirmar senha</label>
+                        <input type="password" id="cad-confirmar-senha" name="confirmar_senha" placeholder="Repita a senha" autocomplete="new-password" minlength="8" required>
+                    </div>
+
+                    <button type="submit" class="botao botao-bloco">Cadastrar</button>
+                </fieldset>
+            </form>
+
+            <p class="rodape-formulario">Já tem uma conta? <a href="login.html">Faça login</a></p>
+        </div>
+    </main>
+
+    <footer class="rodape">
+        <div class="container">
+            <div class="bloco-rodape">
+                <h2>Verde Vida</h2>
+                <p>Plantas e jardim para todo tipo de casa.</p>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Links rápidos</h2>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="loja.html">Loja</a></li>
+                    <li><a href="login.html">Login</a></li>
+                </ul>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Contato</h2>
+                <p>(48) 3333-0000</p>
+                <p>contato@verdevida.exemplo.com.br</p>
+            </div>
+            <div class="bloco-rodape">
+                <h2>Administração</h2>
+                <p><a href="relatorios.html">Painel administrativo</a></p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
