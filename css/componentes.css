@@ -1,0 +1,300 @@
+/* componentes.css
+   Estilo dos "pedacinhos" reutilizaveis: botoes, cartoes de produto,
+   formularios, tabelas e o menu hamburguer. */
+
+/* ---------- botoes ---------- */
+
+.botao {
+    display: inline-block;
+    font-family: var(--fonte-texto);
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0.6em 1.3em;
+    border: 2px solid var(--verde-escuro);
+    border-radius: 6px;
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.15s ease-in-out;
+}
+
+.botao:hover {
+    background-color: var(--verde-medio);
+    border-color: var(--verde-medio);
+}
+
+.botao:active {
+    transform: scale(0.97);
+}
+
+.botao-secundario {
+    background-color: transparent;
+    color: var(--verde-escuro);
+}
+
+.botao-secundario:hover {
+    background-color: var(--verde-claro);
+    color: var(--verde-escuro);
+}
+
+.botao-perigo {
+    background-color: var(--erro);
+    border-color: var(--erro);
+}
+
+.botao-perigo:hover {
+    background-color: #e05545;
+    border-color: #e05545;
+}
+
+.botao-bloco {
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* ---------- cartao de produto ---------- */
+
+.cartao-produto {
+    background-color: var(--branco);
+    border: 1px solid var(--verde-claro);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.cartao-produto:hover {
+    box-shadow: 0 6px 14px var(--sombra);
+    transform: translate(0, -4px);
+}
+
+.cartao-produto img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+}
+
+.cartao-produto .info-produto {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.cartao-produto h3 {
+    margin-bottom: 0.3em;
+}
+
+.cartao-produto .descricao-produto {
+    flex-grow: 1;
+    font-size: 0.92em;
+    color: var(--texto);
+}
+
+.cartao-produto .preco-produto {
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    color: var(--marrom);
+    font-size: 1.2em;
+    margin-bottom: 0.6em;
+}
+
+/* ---------- formularios ---------- */
+
+fieldset {
+    border: 1px solid var(--verde-claro);
+    border-radius: 8px;
+    padding: 1.2em;
+    margin-bottom: 1.2em;
+    background-color: var(--branco);
+}
+
+legend {
+    font-family: var(--fonte-titulo);
+    color: var(--verde-escuro);
+    font-weight: 700;
+    padding: 0 0.4em;
+}
+
+.campo {
+    margin-bottom: 1.1em;
+}
+
+.campo label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 0.55em 0.7em;
+    border: 1px solid var(--marrom-claro);
+    border-radius: 5px;
+    font-family: var(--fonte-texto);
+    font-size: 1em;
+    background-color: var(--creme);
+    transition: border-color 0.15s ease-in-out;
+}
+
+.campo input:hover,
+.campo select:hover,
+.campo textarea:hover {
+    border-color: var(--verde-medio);
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+    border-color: var(--verde-escuro);
+    outline: none;
+}
+
+.campo input:invalid:not(:placeholder-shown) {
+    border-color: var(--erro);
+}
+
+.campo small.ajuda {
+    display: block;
+    margin-top: 0.3em;
+    font-size: 0.85em;
+    color: var(--marrom);
+}
+
+.campo input[readonly],
+.campo input:disabled {
+    background-color: var(--verde-claro);
+    color: var(--texto);
+    cursor: not-allowed;
+}
+
+.linha-campos {
+    display: flex;
+}
+
+.linha-campos .campo {
+    flex: 1 1 auto;
+    margin-right: 1em;
+}
+
+.linha-campos .campo:last-child {
+    margin-right: 0;
+}
+
+.campo-opcoes label {
+    display: inline-flex;
+    align-items: center;
+    font-weight: normal;
+    margin-right: 1em;
+}
+
+.campo-opcoes input {
+    width: auto;
+    margin-right: 0.4em;
+}
+
+.aviso-formulario {
+    background-color: var(--verde-fundo);
+    border: 1px solid var(--verde-medio);
+    border-radius: 6px;
+    padding: 1em;
+    margin-bottom: 1.2em;
+}
+
+.rodape-formulario {
+    text-align: center;
+    margin-top: 1em;
+}
+
+/* ---------- tabelas ---------- */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1.5em;
+    background-color: var(--branco);
+}
+
+caption {
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    color: var(--verde-escuro);
+    text-align: left;
+    padding-bottom: 0.5em;
+    font-size: 1.1em;
+}
+
+th, td {
+    border: 1px solid var(--verde-claro);
+    padding: 0.6em 0.7em;
+    text-align: left;
+}
+
+thead th {
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+}
+
+tbody tr:hover {
+    background-color: var(--verde-fundo);
+}
+
+tfoot td {
+    font-weight: bold;
+    background-color: var(--verde-fundo);
+}
+
+/* ---------- mensagem de confirmacao (carrinho) ---------- */
+
+.confirmacao-pedido {
+    background-color: var(--verde-fundo);
+    border: 2px solid var(--verde-escuro);
+    border-radius: 8px;
+    padding: 1.5em;
+    margin-top: 1.5em;
+}
+
+/* elemento fica oculto ate o atributo "hidden" ser removido no html */
+[hidden] {
+    display: none;
+}
+
+/* ---------- filtros da loja ---------- */
+
+.filtros-loja {
+    background-color: var(--branco);
+    border: 1px solid var(--verde-claro);
+    border-radius: 8px;
+    padding: 1.2em;
+}
+
+.filtros-loja .campo {
+    margin-bottom: 0.9em;
+}
+
+/* ---------- menu hamburguer (checkbox escondido + rotulo) ----------
+   so tem efeito visual na faixa responsiva de celular, ver responsivo.css */
+
+.rotulo-menu {
+    width: 32px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+}
+
+.rotulo-menu .barra-menu {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: var(--verde-escuro);
+    transition: transform 0.2s ease-in-out;
+}
+
+.rotulo-menu .barra-menu:nth-child(2) { top: 0; }
+.rotulo-menu .barra-menu:nth-child(3) { top: 10px; }
+.rotulo-menu .barra-menu:nth-child(4) { top: 20px; }
