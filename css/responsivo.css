@@ -1,0 +1,158 @@
+/* responsivo.css
+   Media queries pra adaptar o site a diferentes tamanhos de tela.
+   Desktop (acima de 1024px) usa o estilo padrao das outras folhas.
+   Aqui ajustamos para: tablet, smartphone grande e smartphone pequeno. */
+
+/* evita rolagem horizontal em qualquer tela pequena */
+html, body {
+    overflow-x: hidden;
+}
+
+/* ---------------------------------------------------- */
+/* TABLET: entre 768px e 1024px                          */
+/* ---------------------------------------------------- */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+
+    .grade-produtos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grade-sobre {
+        grid-template-columns: 1fr;
+    }
+
+    .grade-sobre .imagens-sobre {
+        margin-top: 1em;
+    }
+
+    .layout-loja {
+        grid-template-columns: 200px 1fr;
+    }
+
+    .menu-principal li {
+        margin-left: 1em;
+    }
+
+    main {
+        padding-top: 100px;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* SMARTPHONE (geral, abaixo de 768px): menu hamburguer  */
+/* ---------------------------------------------------- */
+@media screen and (max-width: 767px) {
+
+    main {
+        padding-top: 80px;
+    }
+
+    .container {
+        padding: 0 1em;
+    }
+
+    /* mostra o botao sanduiche e esconde o menu normal */
+    .rotulo-menu {
+        display: block;
+        margin-left: auto;
+    }
+
+    .menu-principal ul {
+        flex-direction: column;
+        align-items: flex-start;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background-color: var(--creme);
+        border-bottom: 2px solid var(--verde-claro);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.25s ease-in-out;
+    }
+
+    .menu-principal li {
+        margin: 0;
+        width: 100%;
+    }
+
+    .menu-principal a {
+        display: block;
+        padding: 0.8em 1em;
+        width: 100%;
+    }
+
+    /* truque do checkbox: quando marcado, libera a altura do menu */
+    .alternar-menu:checked ~ .menu-principal ul {
+        max-height: 400px;
+    }
+
+    .grade-produtos {
+        grid-template-columns: repeat(2, 1fr);
+        grid-gap: 1em;
+    }
+
+    .grade-sobre,
+    .grade-sobre .imagens-sobre {
+        grid-template-columns: 1fr;
+    }
+
+    .layout-loja {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros-loja {
+        margin-bottom: 1.2em;
+    }
+
+    .linha-campos {
+        flex-direction: column;
+    }
+
+    .linha-campos .campo {
+        margin-right: 0;
+    }
+
+    .rodape .container {
+        flex-direction: column;
+    }
+
+    .rodape .bloco-rodape {
+        margin-right: 0;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* SMARTPHONE PEQUENO: 320px ou menos                    */
+/* ---------------------------------------------------- */
+@media screen and (max-width: 320px) {
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    h2 {
+        font-size: 1.25em;
+    }
+
+    .grade-produtos {
+        grid-template-columns: 1fr;
+    }
+
+    .marca-loja span {
+        font-size: 1.05em;
+    }
+
+    .marca-loja img {
+        width: 36px;
+        height: 36px;
+    }
+
+    .cartao-formulario {
+        max-width: 100%;
+    }
+
+    .secao {
+        padding: 1.5em 0;
+    }
+}
