@@ -1,0 +1,115 @@
+/* base.css
+   Reset simples + variaveis (cores, fontes) da loja Verde Vida. */
+
+/* fonte dos titulos importada do Google Fonts*/
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+
+/* reset bem simples, so pra tirar as margens padrao do navegador */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* box-sizing border-box pra facilitar o calculo de largura/altura */
+html {
+    box-sizing: border-box;
+}
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+:root {
+    /* paleta da loja */
+    --verde-escuro: #2d6a4f;
+    --verde-medio: #52b788;
+    --verde-claro: #b7e4c7;
+    --verde-fundo: #d8f3dc;
+    --marrom: #79553d;
+    --marrom-claro: #bc987e;
+    --creme: #fdf8f0;
+    --amarelo: #f0c85a;
+    --texto: #1b3a2b;
+    --branco: #ffffff;
+    --erro: #c0392b;
+    --sombra: rgba(45, 106, 79, 0.18);
+
+    /* fontes */
+    --fonte-titulo: 'Quicksand', Verdana, sans-serif;
+    --fonte-texto: Arial, Helvetica, sans-serif;
+
+    /* espacamentos usados em varios lugares */
+    --espaco-pequeno: 0.5em;
+    --espaco-medio: 1em;
+    --espaco-grande: 2em;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--fonte-texto);
+    color: var(--texto);
+    background-color: var(--creme);
+    line-height: 1.5;
+}
+
+h1, h2, h3 {
+    font-family: var(--fonte-titulo);
+    color: var(--verde-escuro);
+    line-height: 1.2;
+}
+
+h1 {
+    font-size: 2.2em;
+}
+
+h2 {
+    font-size: 1.6em;
+    margin-bottom: var(--espaco-medio);
+}
+
+h3 {
+    font-size: 1.2em;
+    margin-bottom: var(--espaco-pequeno);
+}
+
+p {
+    margin-bottom: var(--espaco-medio);
+}
+
+a {
+    color: var(--verde-escuro);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+    color: var(--verde-medio);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid var(--amarelo);
+    outline-offset: 2px;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+ul, ol {
+    margin-left: 1.3em;
+    margin-bottom: var(--espaco-medio);
+}
+
+/* sumir visualmente um texto mas manter ele acessivel */
+.somente-leitor-de-tela {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+}
