@@ -6,7 +6,7 @@ de jardinagem, construído apenas com HTML e CSS (sem JavaScript).
 
 ## Integrantes
 
-- Fabliny Albuquerque Biano - [RA]
+- Fabliny Albuquerque Biano - 202610406237
 
 ## Descrição da loja
 
