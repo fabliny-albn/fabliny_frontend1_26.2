@@ -10,6 +10,7 @@
     font-weight: bold;
     font-size: 1em;
     padding: 0.6em 1.3em;
+    min-height: 44px; /* area de toque minima */
     border: 2px solid var(--verde-escuro);
     border-radius: 6px;
     background-color: var(--verde-escuro);
@@ -248,6 +249,18 @@ tfoot td {
     background-color: var(--verde-fundo);
 }
 
+/* envolve as tabelas: se a tabela for mais larga que a tela,
+   so ela rola na horizontal, sem cortar o conteudo */
+.tabela-rolavel {
+    width: 100%;
+    overflow-x: auto;
+    margin-bottom: 1.5em;
+}
+
+.tabela-rolavel table {
+    margin-bottom: 0;
+}
+
 /* ---------- mensagem de confirmacao (carrinho) ---------- */
 
 .confirmacao-pedido {
@@ -279,22 +292,24 @@ tfoot td {
 /* ---------- menu hamburguer (checkbox escondido + rotulo) ----------
    so tem efeito visual na faixa responsiva de celular, ver responsivo.css */
 
+/* a area clicavel tem 44x44px (toque confortavel no celular),
+   mas o desenho das 3 barras continua com 32x23px, centralizado */
 .rotulo-menu {
-    width: 32px;
-    height: 24px;
+    width: 44px;
+    height: 44px;
     position: relative;
     cursor: pointer;
 }
 
 .rotulo-menu .barra-menu {
     position: absolute;
-    left: 0;
-    width: 100%;
+    left: 6px;
+    width: 32px;
     height: 3px;
     background-color: var(--verde-escuro);
     transition: transform 0.2s ease-in-out;
 }
 
-.rotulo-menu .barra-menu:nth-child(2) { top: 0; }
-.rotulo-menu .barra-menu:nth-child(3) { top: 10px; }
-.rotulo-menu .barra-menu:nth-child(4) { top: 20px; }
+.rotulo-menu .barra-menu:nth-child(2) { top: 10px; }
+.rotulo-menu .barra-menu:nth-child(3) { top: 20px; }
+.rotulo-menu .barra-menu:nth-child(4) { top: 30px; }

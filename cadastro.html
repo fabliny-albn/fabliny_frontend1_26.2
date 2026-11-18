@@ -57,8 +57,14 @@
                     </div>
 
                     <div class="campo">
+                        <label for="cad-telefone">Telefone (com DDD)</label>
+                        <input type="tel" id="cad-telefone" name="telefone" placeholder="48999990000" autocomplete="tel" maxlength="11" pattern="[0-9]{10,11}" title="Somente números, com DDD: 10 ou 11 dígitos. Ex.: 48999990000" required>
+                        <small class="ajuda">Somente números, com DDD (10 ou 11 dígitos).</small>
+                    </div>
+
+                    <div class="campo">
                         <label for="cad-cpf">CPF</label>
-                        <input type="text" id="cad-cpf" name="cpf" placeholder="000.000.000-00" autocomplete="off" inputmode="numeric" pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}" title="Formato esperado: 000.000.000-00" required>
+                        <input type="text" id="cad-cpf" name="cpf" placeholder="000.000.000-00" autocomplete="off" pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}" title="Formato esperado: 000.000.000-00" required>
                         <small class="ajuda">Formato: 000.000.000-00</small>
                     </div>
 

@@ -76,8 +76,10 @@ main {
 }
 
 .menu-principal a {
+    display: inline-block;
+    min-height: 44px; /* area de toque minima */
     font-weight: 700;
-    padding: 0.3em 0.2em;
+    padding: 0.6em 0.2em;
     border-bottom: 3px solid transparent;
 }
 

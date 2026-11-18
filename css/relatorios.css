@@ -75,6 +75,43 @@ main.conteudo-admin {
     padding: 1em 0;
 }
 
+/* links do cabecalho admin com area de toque minima */
+.cabecalho-admin nav a {
+    display: inline-block;
+    min-height: 44px;
+    padding: 0.6em 0.2em;
+}
+
+/* ---------- area admin no celular (mesmo ponto de responsivo.css) ---------- */
+@media screen and (max-width: 767px) {
+
+    /* cabecalho: titulo em cima, navegacao embaixo */
+    .cabecalho-admin .container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .cabecalho-admin .selo-admin {
+        display: inline-block;
+        margin-top: 0.3em;
+    }
+
+    /* campos de busca empilhados e botao com largura total */
+    .busca-admin {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .busca-admin .campo {
+        flex: 0 0 auto;
+        margin-right: 0;
+    }
+
+    .busca-admin .botao {
+        width: 100%;
+    }
+}
+
 /* ---------- estilo exclusivo de impressao ---------- */
 @media print {
 

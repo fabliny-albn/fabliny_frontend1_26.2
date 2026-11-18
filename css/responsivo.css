@@ -29,6 +29,13 @@ html, body {
         grid-template-columns: 200px 1fr;
     }
 
+    /* com muitos itens no menu, eles quebram em duas linhas
+       em vez de empurrar o cabecalho pra fora da tela */
+    .menu-principal ul {
+        flex-wrap: wrap;
+        justify-content: flex-end;
+    }
+
     .menu-principal li {
         margin-left: 1em;
     }
@@ -51,17 +58,42 @@ html, body {
         padding: 0 1em;
     }
 
+    /* palavras muito longas (e-mails, por exemplo) quebram a linha
+       em vez de alargar a pagina */
+    body {
+        overflow-wrap: break-word;
+    }
+
+    /* paginas de formulario: o cartao nao encosta nas bordas da tela */
+    .pagina-formulario main {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+
+    .pagina-formulario main .container {
+        padding: 0;
+    }
+
+    /* fonte de 16px evita o zoom automatico do navegador ao focar o campo */
+    input,
+    select,
+    textarea {
+        font-size: 16px;
+    }
+
     /* mostra o botao sanduiche e esconde o menu normal */
     .rotulo-menu {
         display: block;
         margin-left: auto;
     }
 
+    /* top: 100% posiciona o menu logo abaixo do cabecalho fixo,
+       qualquer que seja a altura dele */
     .menu-principal ul {
         flex-direction: column;
         align-items: flex-start;
         position: absolute;
-        top: 70px;
+        top: 100%;
         left: 0;
         width: 100%;
         background-color: var(--creme);
@@ -82,9 +114,11 @@ html, body {
         width: 100%;
     }
 
-    /* truque do checkbox: quando marcado, libera a altura do menu */
+    /* truque do checkbox: quando marcado, libera a altura do menu.
+       Se os itens nao couberem na altura da tela, o menu rola por dentro */
     .alternar-menu:checked ~ .menu-principal ul {
-        max-height: 400px;
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
     }
 
     .grade-produtos {
@@ -113,12 +147,33 @@ html, body {
         margin-right: 0;
     }
 
+    /* botoes dentro de linhas de campos ocupam a largura toda */
+    .linha-campos .botao {
+        width: 100%;
+    }
+
+    /* celulas um pouco mais compactas nas tabelas */
+    th, td {
+        padding: 0.5em;
+    }
+
     .rodape .container {
         flex-direction: column;
     }
 
     .rodape .bloco-rodape {
         margin-right: 0;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* SMARTPHONE MEDIO: 480px ou menos                      */
+/* ---------------------------------------------------- */
+@media screen and (max-width: 480px) {
+
+    /* cartoes de produto em uma coluna so, pra nao ficarem apertados */
+    .grade-produtos {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -133,10 +188,6 @@ html, body {
 
     h2 {
         font-size: 1.25em;
-    }
-
-    .grade-produtos {
-        grid-template-columns: 1fr;
     }
 
     .marca-loja span {
