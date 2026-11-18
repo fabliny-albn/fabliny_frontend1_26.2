@@ -190,6 +190,79 @@ export function cadastrarCliente(dados, senhaProtegida) {
     return { sucesso: true, mensagem: "Cadastro realizado com sucesso!", cliente: cliente };
 }
 
+/* ---------- perfil ---------- */
+
+/**
+ * Verifica se os dados do formulário são diferentes dos salvos.
+ * @param {Object} cliente - cliente salvo
+ * @param {Object} dados - { nome, email, telefone }
+ * @param {boolean} trocarSenha - true se uma nova senha foi digitada
+ * @returns {boolean} true se houve alguma alteração
+ */
+export function houveAlteracao(cliente, dados, trocarSenha) {
+    if (trocarSenha) {
+        return true;
+    }
+    if (dados.nome.trim() !== cliente.nome) {
+        return true;
+    }
+    if (dados.email.trim().toLowerCase() !== cliente.email) {
+        return true;
+    }
+    return somenteDigitos(dados.telefone) !== cliente.telefone;
+}
+
+/**
+ * Valida e grava nome, e-mail, telefone e, se informada, a nova senha.
+ * O id e o CPF nunca vêm do formulário: ficam os valores já salvos.
+ * @param {string} id - id do cliente
+ * @param {Object} dados - { nome, email, telefone }
+ * @param {Object|null} senhaProtegida - { senhaHash, salt } ou null para manter a senha
+ * @returns {Object} { sucesso, mensagem }
+ */
+export function atualizarCliente(id, dados, senhaProtegida) {
+    const lista = listarClientes();
+    const posicao = lista.findIndex((cliente) => cliente.id === id);
+    if (posicao === -1) {
+        return { sucesso: false, mensagem: "Cliente não encontrado." };
+    }
+    const erros = [
+        validarNome(dados.nome),
+        validarEmailUnico(dados.email, id),
+        validarTelefoneCliente(dados.telefone)
+    ].filter((mensagem) => mensagem !== "");
+    if (erros.length > 0) {
+        return { sucesso: false, mensagem: erros[0] };
+    }
+
+    const cliente = lista[posicao];
+    cliente.nome = dados.nome.trim();
+    cliente.email = dados.email.trim().toLowerCase();
+    cliente.telefone = somenteDigitos(dados.telefone);
+    if (senhaProtegida) {
+        cliente.senhaHash = senhaProtegida.senhaHash;
+        cliente.salt = senhaProtegida.salt;
+    }
+    if (!salvarClientes(lista)) {
+        return { sucesso: false, mensagem: "Não foi possível salvar as alterações neste navegador." };
+    }
+    return { sucesso: true, mensagem: "Dados atualizados com sucesso!" };
+}
+
+/**
+ * Exclui um cliente (as compras dele continuam guardadas em loja:compras).
+ * @param {string} id - id do cliente
+ * @returns {boolean} true se excluiu
+ */
+export function excluirCliente(id) {
+    const lista = listarClientes();
+    const restantes = lista.filter((cliente) => cliente.id !== id);
+    if (restantes.length === lista.length) {
+        return false;
+    }
+    return salvarClientes(restantes);
+}
+
 /**
  * Verifica se já existe uma conta de administrador.
  * @returns {boolean} true se existir

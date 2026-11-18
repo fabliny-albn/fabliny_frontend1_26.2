@@ -44,7 +44,7 @@
             <h1>Meu perfil</h1>
             <p>Confira e edite os seus dados cadastrados.</p>
 
-            <form action="#" method="post" id="form-perfil">
+            <form action="#" method="post" id="form-perfil" novalidate>
                 <fieldset>
                     <legend>Dados do cliente</legend>
 
@@ -77,6 +77,12 @@
                     </div>
 
                     <div class="campo">
+                        <label for="perfil-senha-atual">Senha atual</label>
+                        <input type="password" id="perfil-senha-atual" name="senha_atual" placeholder="Obrigatória só para trocar a senha" autocomplete="current-password">
+                        <small class="ajuda">Preencha apenas se quiser trocar a senha.</small>
+                    </div>
+
+                    <div class="campo">
                         <label for="perfil-senha">Nova senha</label>
                         <input type="password" id="perfil-senha" name="senha" placeholder="Deixe em branco para manter a atual" autocomplete="new-password" minlength="8">
                     </div>
@@ -89,6 +95,12 @@
                     <button type="submit" class="botao botao-bloco">Salvar alterações</button>
                 </fieldset>
             </form>
+
+            <section class="zona-exclusao" id="area-excluir-conta">
+                <h2>Excluir conta</h2>
+                <p>A exclusão remove o seu cadastro e encerra a sessão. O histórico de compras continua guardado pela loja.</p>
+                <button type="button" class="botao botao-perigo botao-bloco" id="botao-excluir-conta">Excluir minha conta</button>
+            </section>
         </div>
 
         <div class="container">
@@ -96,7 +108,7 @@
                 <h2>Meus pedidos</h2>
                 <div class="tabela-rolavel">
                     <table>
-                        <caption>Histórico de pedidos de Maria Fernanda Souza</caption>
+                        <caption id="titulo-pedidos">Histórico de pedidos de Maria Fernanda Souza</caption>
                         <thead>
                             <tr>
                                 <th scope="col">Pedido</th>

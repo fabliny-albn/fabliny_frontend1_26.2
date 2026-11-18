@@ -115,13 +115,44 @@
                             <tbody id="itens-carrinho"></tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="3">Total</td>
+                                    <td colspan="3">Total dos produtos</td>
                                     <td id="total-carrinho">R$ 0,00</td>
                                     <td></td>
                                 </tr>
                             </tfoot>
                         </table>
                     </div>
+
+                    <div class="opcoes-carrinho">
+                        <div class="campo">
+                            <label for="carrinho-cupom">Cupom de desconto</label>
+                            <div class="linha-acao">
+                                <input type="text" id="carrinho-cupom" name="cupom" placeholder="Ex.: VERDE10" autocomplete="off">
+                                <button type="button" class="botao botao-secundario" id="aplicar-cupom">Aplicar</button>
+                            </div>
+                            <small class="ajuda" id="mensagem-cupom" aria-live="polite"></small>
+                        </div>
+
+                        <div class="campo">
+                            <label for="carrinho-cep">CEP para entrega</label>
+                            <div class="linha-acao">
+                                <input type="text" id="carrinho-cep" name="cep" placeholder="88000000" autocomplete="postal-code" maxlength="9">
+                                <button type="button" class="botao botao-secundario" id="calcular-frete">Calcular</button>
+                            </div>
+                            <small class="ajuda" id="mensagem-frete" aria-live="polite"></small>
+                        </div>
+                    </div>
+
+                    <dl class="resumo-carrinho">
+                        <dt>Produtos</dt>
+                        <dd id="resumo-subtotal">R$ 0,00</dd>
+                        <dt>Desconto</dt>
+                        <dd id="resumo-desconto">R$ 0,00</dd>
+                        <dt>Frete</dt>
+                        <dd id="resumo-frete">Informe o CEP</dd>
+                        <dt>Total a pagar</dt>
+                        <dd id="resumo-total">R$ 0,00</dd>
+                    </dl>
 
                     <button type="submit" class="botao botao-bloco">Finalizar compra</button>
                 </form>

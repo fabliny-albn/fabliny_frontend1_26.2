@@ -1,6 +1,7 @@
 /* pagina-login.js
    Página de login: validação, mensagem genérica de erro, contagem regressiva
-   do bloqueio, "Lembrar de mim" e volta para a página de origem. */
+   do bloqueio, "Lembrar de mim", junção do carrinho do visitante
+   e volta para a página de origem. */
 
 import {
     fazerLogin,
@@ -11,6 +12,7 @@ import {
     obterEmailLembrado,
     guardarAviso
 } from "./auth.js";
+import { mesclarCarrinhoVisitante } from "./carrinho.js";
 import { iniciarPagina, validarFormulario, corrigirAoDigitar } from "./ui.js";
 import { validarEmail } from "./utils.js";
 
@@ -116,7 +118,9 @@ function configurarLogin() {
         } else {
             esquecerEmail();
         }
-        guardarAviso(`Olá, ${resultado.usuario.nome}! Login realizado com sucesso.`);
+        // O carrinho montado antes do login passa para o cliente
+        const avisoCarrinho = mesclarCarrinhoVisitante(resultado.usuario.id);
+        guardarAviso(`Olá, ${resultado.usuario.nome}! Login realizado com sucesso. ${avisoCarrinho}`);
         window.location.href = escolherDestino(resultado.usuario);
     }
 

@@ -554,3 +554,88 @@ tfoot td {
     font-size: 0.95em;
     color: var(--marrom);
 }
+
+/* ---------- carrinho: cupom, CEP e resumo do pedido ---------- */
+
+.opcoes-carrinho {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+    margin-bottom: 1em;
+}
+
+/* campo e botao lado a lado (cupom e CEP) */
+.linha-acao {
+    display: flex;
+    align-items: center;
+}
+
+.linha-acao input {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+}
+
+.linha-acao .botao {
+    margin-left: 0.5em;
+}
+
+.campo small.mensagem-sucesso {
+    color: var(--verde-escuro);
+    font-weight: bold;
+}
+
+.resumo-carrinho {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 0.4em 1em;
+    max-width: 420px;
+    margin: 0 0 1.2em auto;
+    padding: 1em;
+    background-color: var(--branco);
+    border: 1px solid var(--verde-claro);
+    border-radius: 8px;
+}
+
+.resumo-carrinho dd {
+    text-align: right;
+}
+
+.resumo-carrinho dt:last-of-type,
+.resumo-carrinho dd:last-of-type {
+    padding-top: 0.4em;
+    border-top: 1px solid var(--verde-claro);
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    font-size: 1.2em;
+    color: var(--marrom);
+}
+
+/* ---------- botoes do dialogo de confirmacao ---------- */
+
+.acoes-dialogo {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 1em;
+}
+
+.acoes-dialogo .botao {
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+}
+
+/* ---------- perfil: area de exclusao da conta ---------- */
+
+.zona-exclusao {
+    margin-top: 1.5em;
+    padding: 1.2em;
+    background-color: var(--branco);
+    border: 1px solid var(--erro);
+    border-radius: 8px;
+}
+
+.zona-exclusao h2 {
+    color: var(--erro);
+    font-size: 1.2em;
+}

@@ -91,7 +91,7 @@ export async function garantirAdministrador() {
         id: "ADM01",
         nome: "Administrador Verde Vida",
         email: EMAIL_ADMINISTRADOR,
-        telefone: "",
+        telefone: "4833330000",
         cpf: "",
         perfil: "administrador",
         situacao: "ativo",

@@ -191,6 +191,21 @@ html, body {
         left: 1em;
         width: auto;
     }
+
+    /* cupom e CEP um embaixo do outro; resumo com a largura toda */
+    .opcoes-carrinho {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo-carrinho {
+        max-width: none;
+    }
+
+    /* botoes do dialogo empilhados, com largura total */
+    .acoes-dialogo .botao {
+        width: 100%;
+        margin-left: 0;
+    }
 }
 
 /* ---------------------------------------------------- */

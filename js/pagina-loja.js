@@ -1,5 +1,6 @@
 /* pagina-loja.js
-   Catálogo com busca, filtros e ordenação, e a tabela do carrinho. */
+   Catálogo com busca, filtros e ordenação, tabela do carrinho,
+   cupom de desconto, cálculo do frete e resumo do pedido. */
 
 import { listarProdutos, filtrarProdutos } from "./produtos.js";
 import {
@@ -8,10 +9,17 @@ import {
     alterarQuantidade,
     removerDoCarrinho
 } from "./carrinho.js";
+import { validarCupom, calcularDesconto, calcularFrete, calcularResumo } from "./compras.js";
 import { iniciarPagina, exibirCatalogo, mostrarToast, atualizarContadorCarrinho } from "./ui.js";
 import { criarElemento, formatarMoeda, criarDebounce } from "./utils.js";
 
 const ESPERA_BUSCA = 300;
+
+// Cupom aplicado e CEP informado no carrinho desta página.
+const escolhasPedido = {
+    cupom: null,
+    cep: ""
+};
 
 /* ---------- filtros ---------- */
 
@@ -150,6 +158,118 @@ function exibirCarrinho() {
     document.getElementById("total-carrinho").textContent = formatarMoeda(calcularTotalCarrinho());
     document.querySelector("#form-carrinho button[type=\"submit\"]").disabled = itens.length === 0;
     atualizarContadorCarrinho();
+    atualizarResumo();
+}
+
+/* ---------- cupom, frete e resumo ---------- */
+
+// Escreve uma mensagem abaixo do campo, como sucesso ou erro.
+function escreverMensagem(idMensagem, texto, sucesso) {
+    const mensagem = document.getElementById(idMensagem);
+    mensagem.textContent = texto;
+    mensagem.classList.remove("mensagem-erro", "mensagem-sucesso");
+    if (texto === "") {
+        return;
+    }
+    if (sucesso) {
+        mensagem.classList.add("mensagem-sucesso");
+    } else {
+        mensagem.classList.add("mensagem-erro");
+    }
+}
+
+// Calcula o valor do frete para o resumo; devolve -1 quando ainda não há CEP válido.
+function valorDoFrete(subtotal) {
+    if (escolhasPedido.cep === "") {
+        return -1;
+    }
+    const frete = calcularFrete(escolhasPedido.cep, subtotal, escolhasPedido.cupom);
+    if (!frete.sucesso) {
+        return -1;
+    }
+    return frete.valor;
+}
+
+// Confere de novo o cupom aplicado, porque o subtotal pode ter mudado.
+function revalidarCupom(subtotal) {
+    if (!escolhasPedido.cupom) {
+        return;
+    }
+    const resultado = validarCupom(escolhasPedido.cupom.codigo, subtotal);
+    if (!resultado.sucesso) {
+        escolhasPedido.cupom = null;
+        escreverMensagem("mensagem-cupom", `Cupom removido. ${resultado.mensagem}`, false);
+    }
+}
+
+// Atualiza o quadro com produtos, desconto, frete e total a pagar.
+function atualizarResumo() {
+    const subtotal = calcularTotalCarrinho();
+    revalidarCupom(subtotal);
+    const desconto = calcularDesconto(escolhasPedido.cupom, subtotal);
+    let frete = valorDoFrete(subtotal);
+    const textoFrete = document.getElementById("resumo-frete");
+
+    if (frete === -1) {
+        textoFrete.textContent = "Informe o CEP";
+        frete = 0;
+    } else if (frete === 0) {
+        textoFrete.textContent = "Grátis";
+    } else {
+        textoFrete.textContent = formatarMoeda(frete);
+    }
+    if (subtotal === 0) {
+        frete = 0;
+    }
+
+    const resumo = calcularResumo(subtotal, desconto, frete);
+    document.getElementById("resumo-subtotal").textContent = formatarMoeda(resumo.subtotal);
+    document.getElementById("resumo-desconto").textContent = `− ${formatarMoeda(resumo.desconto)}`;
+    document.getElementById("resumo-total").textContent = formatarMoeda(resumo.total);
+}
+
+// Aplica o cupom digitado.
+function aplicarCupom() {
+    const codigo = document.getElementById("carrinho-cupom").value;
+    const resultado = validarCupom(codigo, calcularTotalCarrinho());
+    if (resultado.sucesso) {
+        escolhasPedido.cupom = resultado.cupom;
+    } else {
+        escolhasPedido.cupom = null;
+    }
+    escreverMensagem("mensagem-cupom", resultado.mensagem, resultado.sucesso);
+    atualizarResumo();
+}
+
+// Calcula o frete para o CEP digitado.
+function aplicarCep() {
+    const cep = document.getElementById("carrinho-cep").value;
+    const resultado = calcularFrete(cep, calcularTotalCarrinho(), escolhasPedido.cupom);
+    if (resultado.sucesso) {
+        escolhasPedido.cep = cep;
+    } else {
+        escolhasPedido.cep = "";
+    }
+    escreverMensagem("mensagem-frete", resultado.mensagem, resultado.sucesso);
+    atualizarResumo();
+}
+
+// Faz a tecla Enter no campo executar a ação, em vez de enviar o formulário.
+function usarEnterNoCampo(idCampo, acao) {
+    document.getElementById(idCampo).addEventListener("keydown", (evento) => {
+        if (evento.key === "Enter") {
+            evento.preventDefault();
+            acao();
+        }
+    });
+}
+
+// Liga os botões e campos de cupom e CEP.
+function configurarCupomEFrete() {
+    document.getElementById("aplicar-cupom").addEventListener("click", aplicarCupom);
+    document.getElementById("calcular-frete").addEventListener("click", aplicarCep);
+    usarEnterNoCampo("carrinho-cupom", aplicarCupom);
+    usarEnterNoCampo("carrinho-cep", aplicarCep);
 }
 
 // Impede o envio do carrinho enquanto a finalização não está disponível.
@@ -163,6 +283,7 @@ function configurarFinalizacao() {
 document.addEventListener("DOMContentLoaded", () => {
     iniciarPagina();
     configurarFiltros();
+    configurarCupomEFrete();
     configurarFinalizacao();
     aplicarFiltros();
     exibirCarrinho();

@@ -1,9 +1,11 @@
 /* carrinho.js
    Itens do carrinho salvos em loja:carrinho. O valor salvo é um objeto
-   com um carrinho por dono: { visitante: [ { idProduto, quantidade } ] }. */
+   com um carrinho por dono: o do visitante e um para cada cliente, ex.:
+   { visitante: [ { idProduto, quantidade } ], C001: [ ... ] }. */
 
 import { CHAVES, lerDados, gravarDados } from "./storage.js";
 import { buscarProduto, obterEstoque, textoUnidades } from "./produtos.js";
+import { usuarioLogado } from "./auth.js";
 import { arredondarMoeda } from "./utils.js";
 
 const DONO_VISITANTE = "visitante";
@@ -13,9 +15,22 @@ function lerCarrinhos() {
     return lerDados(CHAVES.carrinho, {});
 }
 
-// Informa de quem é o carrinho em uso.
+// Informa de quem é o carrinho em uso: do cliente conectado ou do visitante.
 function donoAtual() {
-    return DONO_VISITANTE;
+    const usuario = usuarioLogado();
+    if (!usuario) {
+        return DONO_VISITANTE;
+    }
+    return usuario.id;
+}
+
+// Devolve uma lista de itens válida (ou vazia) de um dono.
+function itensDoDono(carrinhos, dono) {
+    const itens = carrinhos[dono];
+    if (!Array.isArray(itens)) {
+        return [];
+    }
+    return itens.filter(itemValido);
 }
 
 // Grava a lista de itens do dono atual.
@@ -38,11 +53,56 @@ function itemValido(item) {
  * @returns {Array} lista de { idProduto, quantidade }
  */
 export function obterItensCarrinho() {
-    const itens = lerCarrinhos()[donoAtual()];
-    if (!Array.isArray(itens)) {
-        return [];
+    return itensDoDono(lerCarrinhos(), donoAtual());
+}
+
+/**
+ * Junta o carrinho do visitante ao do cliente que acabou de entrar,
+ * somando as quantidades sem passar do estoque.
+ * @param {string} idCliente - id do cliente conectado
+ * @returns {string} aviso quando alguma quantidade foi ajustada, ou ""
+ */
+export function mesclarCarrinhoVisitante(idCliente) {
+    const carrinhos = lerCarrinhos();
+    const itensCliente = itensDoDono(carrinhos, idCliente);
+    let ajustou = false;
+
+    itensDoDono(carrinhos, DONO_VISITANTE).forEach((itemVisitante) => {
+        const estoque = obterEstoque(itemVisitante.idProduto);
+        const existente = itensCliente.find((item) => item.idProduto === itemVisitante.idProduto);
+        let soma = itemVisitante.quantidade;
+        if (existente) {
+            soma += existente.quantidade;
+        }
+        if (soma > estoque) {
+            soma = estoque;
+            ajustou = true;
+        }
+        if (existente) {
+            existente.quantidade = soma;
+        } else if (soma > 0) {
+            itensCliente.push({ idProduto: itemVisitante.idProduto, quantidade: soma });
+        }
+    });
+
+    carrinhos[idCliente] = itensCliente.filter((item) => item.quantidade > 0);
+    carrinhos[DONO_VISITANTE] = [];
+    gravarDados(CHAVES.carrinho, carrinhos);
+    if (ajustou) {
+        return "Algumas quantidades do carrinho foram ajustadas ao estoque disponível.";
     }
-    return itens.filter(itemValido);
+    return "";
+}
+
+/**
+ * Apaga o carrinho de um cliente (usado na exclusão da conta).
+ * @param {string} idCliente - id do cliente
+ * @returns {void}
+ */
+export function apagarCarrinhoCliente(idCliente) {
+    const carrinhos = lerCarrinhos();
+    delete carrinhos[idCliente];
+    gravarDados(CHAVES.carrinho, carrinhos);
 }
 
 /**
