@@ -77,6 +77,17 @@ export function criarElemento(tag, classe, texto) {
 }
 
 /**
+ * Acrescenta um par termo/descrição (dt e dd) a uma lista dl.
+ * @param {HTMLElement} lista - elemento dl
+ * @param {string} termo - texto do dt
+ * @param {string} descricao - texto do dd
+ * @returns {void}
+ */
+export function adicionarDefinicao(lista, termo, descricao) {
+    lista.append(criarElemento("dt", "", termo), criarElemento("dd", "", descricao));
+}
+
+/**
  * Monta um código com prefixo e zeros à esquerda, ex.: C001, CP012.
  * @param {string} prefixo - letras iniciais
  * @param {number} numero - número sequencial
@@ -150,6 +161,49 @@ export function mascararCpf(valor) {
         resultado += digitos[i];
     }
     return resultado;
+}
+
+/**
+ * Separa o número do cartão em grupos de 4 dígitos enquanto ele é digitado.
+ * @param {string} valor - texto digitado
+ * @returns {string} número com espaços, ex.: "4111 1111 1111 1111"
+ */
+export function mascararCartao(valor) {
+    const digitos = somenteDigitos(valor).slice(0, 19);
+    let resultado = "";
+    for (let i = 0; i < digitos.length; i++) {
+        if (i > 0 && i % 4 === 0) {
+            resultado += " ";
+        }
+        resultado += digitos[i];
+    }
+    return resultado;
+}
+
+/**
+ * Aplica a máscara MM/AA na validade do cartão.
+ * @param {string} valor - texto digitado
+ * @returns {string} validade com a barra
+ */
+export function mascararValidade(valor) {
+    const digitos = somenteDigitos(valor).slice(0, 4);
+    if (digitos.length <= 2) {
+        return digitos;
+    }
+    return `${digitos.slice(0, 2)}/${digitos.slice(2)}`;
+}
+
+/**
+ * Formata um CEP salvo só com números, ex.: 88000-000.
+ * @param {string} cep - CEP com 8 dígitos
+ * @returns {string} CEP com traço
+ */
+export function formatarCep(cep) {
+    const digitos = somenteDigitos(cep);
+    if (digitos.length !== 8) {
+        return digitos;
+    }
+    return `${digitos.slice(0, 5)}-${digitos.slice(5)}`;
 }
 
 /**
@@ -297,6 +351,40 @@ export function validarCartaoLuhn(numero) {
         dobrar = !dobrar;
     }
     return soma % 10 === 0;
+}
+
+/**
+ * Verifica a validade do cartão (MM/AA): mês de 1 a 12 e ainda não vencida.
+ * O cartão vale até o último dia do mês informado.
+ * @param {string} validade - validade digitada
+ * @returns {boolean} true se a validade for aceita
+ */
+export function validarValidadeCartao(validade) {
+    const digitos = somenteDigitos(validade);
+    if (digitos.length !== 4) {
+        return false;
+    }
+    const mes = parseInt(digitos.slice(0, 2), 10);
+    const ano = 2000 + parseInt(digitos.slice(2), 10);
+    if (mes < 1 || mes > 12) {
+        return false;
+    }
+    // O primeiro dia do mês seguinte marca o fim da validade
+    const fimDaValidade = new Date(ano, mes, 1);
+    return Date.now() < fimDaValidade;
+}
+
+/**
+ * Verifica o código de segurança do cartão (3 ou 4 números).
+ * @param {string} cvv - código digitado
+ * @returns {boolean} true se o código for válido
+ */
+export function validarCvv(cvv) {
+    const texto = `${cvv}`;
+    if (somenteDigitos(texto) !== texto) {
+        return false;
+    }
+    return texto.length === 3 || texto.length === 4;
 }
 
 /**

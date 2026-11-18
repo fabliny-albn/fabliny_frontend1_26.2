@@ -157,11 +157,200 @@
                     <button type="submit" class="botao botao-bloco">Finalizar compra</button>
                 </form>
 
-                <!-- mensagem de confirmacao escondida; ver README para saber como exibi-la -->
-                <div class="confirmacao-pedido" id="confirmacao-compra" hidden>
+                <!-- tela final da compra: preenchida e mostrada pelo JS depois da confirmacao -->
+                <div class="confirmacao-pedido" id="confirmacao-compra" tabindex="-1" hidden>
                     <h2>Compra finalizada!</h2>
-                    <p>Seu pedido <strong>CP001</strong> foi confirmado com sucesso. Você vai receber um e-mail com os detalhes da entrega em breve.</p>
+                    <p>Seu pedido <strong id="codigo-pedido"></strong> foi confirmado com sucesso. Você vai receber um e-mail com os detalhes da entrega em breve.</p>
+                    <p id="detalhes-pagamento"></p>
+                    <div class="acoes-checkout">
+                        <button type="button" class="botao botao-secundario" id="continuar-comprando">Continuar comprando</button>
+                        <button type="button" class="botao" id="ver-pedidos">Ver meus pedidos</button>
+                    </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- finalizacao da compra em etapas; o JS mostra uma etapa por vez -->
+        <section class="secao" id="finalizacao" hidden>
+            <div class="container">
+                <h2>Finalizar compra</h2>
+
+                <ol class="passos-checkout">
+                    <li id="passo-resumo">Resumo</li>
+                    <li id="passo-entrega">Entrega</li>
+                    <li id="passo-pagamento">Pagamento</li>
+                    <li id="passo-confirmacao">Confirmação</li>
+                </ol>
+
+                <form action="#" method="post" id="form-checkout" novalidate>
+
+                    <!-- etapa 1: resumo do pedido -->
+                    <div class="etapa-checkout" id="etapa-resumo">
+                        <h3 tabindex="-1">1. Resumo do pedido</h3>
+                        <div class="tabela-rolavel">
+                            <table>
+                                <caption>Produtos do pedido</caption>
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Produto</th>
+                                        <th scope="col">Quantidade</th>
+                                        <th scope="col">Preço unitário</th>
+                                        <th scope="col">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="itens-checkout"></tbody>
+                            </table>
+                        </div>
+                        <dl class="resumo-carrinho" id="resumo-pedido"></dl>
+                        <div class="acoes-checkout">
+                            <button type="button" class="botao botao-secundario botao-voltar">Voltar ao carrinho</button>
+                            <button type="submit" class="botao">Continuar</button>
+                        </div>
+                    </div>
+
+                    <!-- etapa 2: endereco de entrega -->
+                    <div class="etapa-checkout" id="etapa-entrega" hidden>
+                        <h3 tabindex="-1">2. Endereço de entrega</h3>
+
+                        <div class="campo">
+                            <label for="checkout-cep">CEP</label>
+                            <input type="text" id="checkout-cep" name="cep" placeholder="88000000" autocomplete="postal-code" maxlength="9" required>
+                            <small class="ajuda" id="frete-checkout" aria-live="polite"></small>
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="checkout-rua">Rua ou avenida</label>
+                                <input type="text" id="checkout-rua" name="rua" autocomplete="address-line1" maxlength="80" required>
+                            </div>
+                            <div class="campo">
+                                <label for="checkout-numero">Número</label>
+                                <input type="text" id="checkout-numero" name="numero" placeholder="Ex.: 120 ou S/N" maxlength="10" required>
+                            </div>
+                        </div>
+
+                        <div class="campo">
+                            <label for="checkout-complemento">Complemento (opcional)</label>
+                            <input type="text" id="checkout-complemento" name="complemento" placeholder="Ex.: apto 12" autocomplete="address-line2" maxlength="40">
+                        </div>
+
+                        <div class="linha-campos">
+                            <div class="campo">
+                                <label for="checkout-bairro">Bairro</label>
+                                <input type="text" id="checkout-bairro" name="bairro" maxlength="50" required>
+                            </div>
+                            <div class="campo">
+                                <label for="checkout-cidade">Cidade</label>
+                                <input type="text" id="checkout-cidade" name="cidade" autocomplete="address-level2" maxlength="50" required>
+                            </div>
+                            <div class="campo">
+                                <label for="checkout-uf">Estado</label>
+                                <select id="checkout-uf" name="uf" autocomplete="address-level1" required>
+                                    <option value="">Escolha</option>
+                                        <option value="AC">AC</option>
+                                        <option value="AL">AL</option>
+                                        <option value="AP">AP</option>
+                                        <option value="AM">AM</option>
+                                        <option value="BA">BA</option>
+                                        <option value="CE">CE</option>
+                                        <option value="DF">DF</option>
+                                        <option value="ES">ES</option>
+                                        <option value="GO">GO</option>
+                                        <option value="MA">MA</option>
+                                        <option value="MT">MT</option>
+                                        <option value="MS">MS</option>
+                                        <option value="MG">MG</option>
+                                        <option value="PA">PA</option>
+                                        <option value="PB">PB</option>
+                                        <option value="PR">PR</option>
+                                        <option value="PE">PE</option>
+                                        <option value="PI">PI</option>
+                                        <option value="RJ">RJ</option>
+                                        <option value="RN">RN</option>
+                                        <option value="RS">RS</option>
+                                        <option value="RO">RO</option>
+                                        <option value="RR">RR</option>
+                                        <option value="SC">SC</option>
+                                        <option value="SP">SP</option>
+                                        <option value="SE">SE</option>
+                                        <option value="TO">TO</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="acoes-checkout">
+                            <button type="button" class="botao botao-secundario botao-voltar">Voltar</button>
+                            <button type="submit" class="botao">Continuar</button>
+                        </div>
+                    </div>
+
+                    <!-- etapa 3: forma de pagamento (simulada) -->
+                    <div class="etapa-checkout" id="etapa-pagamento" hidden>
+                        <h3 tabindex="-1">3. Pagamento</h3>
+
+                        <fieldset>
+                            <legend>Forma de pagamento</legend>
+                            <div class="campo campo-opcoes">
+                                <label for="pagamento-pix">
+                                    <input type="radio" id="pagamento-pix" name="pagamento" value="pix" checked>
+                                    Pix
+                                </label>
+                                <label for="pagamento-cartao">
+                                    <input type="radio" id="pagamento-cartao" name="pagamento" value="cartao">
+                                    Cartão de crédito
+                                </label>
+                                <label for="pagamento-boleto">
+                                    <input type="radio" id="pagamento-boleto" name="pagamento" value="boleto">
+                                    Boleto bancário
+                                </label>
+                            </div>
+                        </fieldset>
+
+                        <p class="aviso-formulario" id="info-pagamento" aria-live="polite"></p>
+
+                        <div id="dados-cartao" hidden>
+                            <div class="campo">
+                                <label for="cartao-numero">Número do cartão</label>
+                                <input type="text" id="cartao-numero" name="cartao_numero" placeholder="0000 0000 0000 0000" autocomplete="cc-number" maxlength="23">
+                            </div>
+
+                            <div class="campo">
+                                <label for="cartao-nome">Nome impresso no cartão</label>
+                                <input type="text" id="cartao-nome" name="cartao_nome" autocomplete="cc-name" maxlength="60">
+                            </div>
+
+                            <div class="linha-campos">
+                                <div class="campo">
+                                    <label for="cartao-validade">Validade</label>
+                                    <input type="text" id="cartao-validade" name="cartao_validade" placeholder="MM/AA" autocomplete="cc-exp" maxlength="5">
+                                </div>
+                                <div class="campo">
+                                    <label for="cartao-cvv">CVV</label>
+                                    <input type="text" id="cartao-cvv" name="cartao_cvv" placeholder="123" autocomplete="cc-csc" maxlength="4">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="acoes-checkout">
+                            <button type="button" class="botao botao-secundario botao-voltar">Voltar</button>
+                            <button type="submit" class="botao">Continuar</button>
+                        </div>
+                    </div>
+
+                    <!-- etapa 4: confirmacao dos dados antes de registrar a compra -->
+                    <div class="etapa-checkout" id="etapa-confirmacao" hidden>
+                        <h3 tabindex="-1">4. Confirmação</h3>
+                        <p>Confira os dados do pedido antes de confirmar.</p>
+                        <dl class="resumo-carrinho" id="resumo-confirmacao"></dl>
+                        <p><strong>Entrega:</strong> <span id="confirmar-entrega"></span></p>
+                        <p><strong>Pagamento:</strong> <span id="confirmar-pagamento"></span></p>
+                        <div class="acoes-checkout">
+                            <button type="button" class="botao botao-secundario botao-voltar">Voltar</button>
+                            <button type="submit" class="botao">Confirmar compra</button>
+                        </div>
+                    </div>
+
+                </form>
             </div>
         </section>
 

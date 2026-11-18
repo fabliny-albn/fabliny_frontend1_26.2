@@ -3,7 +3,7 @@
    e montagem dos elementos de produto (cartão e detalhes). */
 
 import { produtos, nomesCategorias } from "../data/produtos.js";
-import { CHAVES, lerDados } from "./storage.js";
+import { CHAVES, lerDados, gravarDados } from "./storage.js";
 import { criarElemento, formatarMoeda, normalizarTexto } from "./utils.js";
 
 /**
@@ -21,6 +21,22 @@ export function obterEstoque(idProduto) {
         return 0;
     }
     return produto.estoque;
+}
+
+/**
+ * Soma unidades ao estoque salvo (ou tira, com valor negativo), sem ficar abaixo de zero.
+ * @param {string} idProduto - id do produto
+ * @param {number} diferenca - unidades a somar (negativo para dar baixa)
+ * @returns {boolean} true se gravou
+ */
+export function alterarEstoque(idProduto, diferenca) {
+    const estoqueSalvo = lerDados(CHAVES.estoque, {});
+    let novoEstoque = obterEstoque(idProduto) + diferenca;
+    if (novoEstoque < 0) {
+        novoEstoque = 0;
+    }
+    estoqueSalvo[idProduto] = novoEstoque;
+    return gravarDados(CHAVES.estoque, estoqueSalvo);
 }
 
 /**

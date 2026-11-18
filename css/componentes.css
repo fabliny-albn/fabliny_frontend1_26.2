@@ -639,3 +639,83 @@ tfoot td {
     color: var(--erro);
     font-size: 1.2em;
 }
+
+/* ---------- finalizacao da compra em etapas ---------- */
+
+.passos-checkout {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 0.5em;
+    margin-bottom: 1.2em;
+}
+
+.passos-checkout li {
+    padding: 0.5em 0.3em;
+    border-bottom: 4px solid var(--verde-claro);
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    text-align: center;
+    color: var(--marrom);
+}
+
+.passos-checkout li.passo-concluido {
+    border-bottom-color: var(--verde-medio);
+}
+
+.passos-checkout li[aria-current="step"] {
+    border-bottom-color: var(--verde-escuro);
+    color: var(--verde-escuro);
+}
+
+.etapa-checkout {
+    background-color: var(--branco);
+    border: 1px solid var(--verde-claro);
+    border-radius: 8px;
+    padding: 1.2em;
+}
+
+/* resumo dentro da etapa ocupa a largura toda */
+.etapa-checkout .resumo-carrinho {
+    max-width: none;
+    margin: 0 0 1.2em;
+}
+
+.acoes-checkout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 1em;
+}
+
+.acoes-checkout .botao {
+    margin-top: 0.5em;
+}
+
+/* ---------- detalhes de uma compra (Meus pedidos) ---------- */
+
+.secao-pedidos summary {
+    cursor: pointer;
+    color: var(--verde-escuro);
+    font-weight: bold;
+    min-height: 44px;
+    padding: 0.6em 0;
+}
+
+.detalhes-compra {
+    font-size: 0.95em;
+}
+
+.detalhes-compra ul {
+    margin: 0.3em 0 0.8em 1.2em;
+}
+
+.detalhes-compra dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0.3em 1em;
+}
+
+.detalhes-compra dt {
+    font-weight: bold;
+}

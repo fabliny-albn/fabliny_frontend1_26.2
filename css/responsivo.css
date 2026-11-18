@@ -206,6 +206,15 @@ html, body {
         width: 100%;
         margin-left: 0;
     }
+
+    /* passos da finalizacao em duas linhas; botoes das etapas empilhados */
+    .passos-checkout {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .acoes-checkout .botao {
+        width: 100%;
+    }
 }
 
 /* ---------------------------------------------------- */

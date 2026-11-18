@@ -1,6 +1,6 @@
 /* pagina-perfil.js
    Página de perfil: só abre com login. Carrega e edita os dados do cliente
-   (ID e CPF não mudam), troca a senha e exclui a conta. */
+   (ID e CPF não mudam), troca a senha, exclui a conta e lista os pedidos. */
 
 import {
     validarNome,
@@ -14,6 +14,7 @@ import {
 } from "./clientes.js";
 import { exigirLogin, usuarioLogado, conferirSenha, protegerSenha, encerrarSessao } from "./auth.js";
 import { apagarCarrinhoCliente } from "./carrinho.js";
+import { listarComprasDoCliente, resumirProdutos, criarDetalhesCompra } from "./compras.js";
 import {
     iniciarPagina,
     atualizarMenu,
@@ -24,7 +25,7 @@ import {
     abrirDialogo,
     fecharDialogo
 } from "./ui.js";
-import { criarElemento, mascararCpf, somenteDigitos } from "./utils.js";
+import { criarElemento, mascararCpf, somenteDigitos, formatarMoeda, formatarDataHora } from "./utils.js";
 
 /* ---------- dados do formulario ---------- */
 
@@ -175,6 +176,49 @@ function confirmarExclusao() {
     abrirDialogo("Excluir conta", conteudo);
 }
 
+/* ---------- meus pedidos ---------- */
+
+// Cria a célula dos produtos com os detalhes do pedido em <details>.
+function criarCelulaProdutos(compra) {
+    const celula = document.createElement("td");
+    const detalhes = document.createElement("details");
+    const resumo = criarElemento("summary", "", resumirProdutos(compra));
+    detalhes.append(resumo, criarDetalhesCompra(compra));
+    celula.append(detalhes);
+    return celula;
+}
+
+// Cria uma linha da tabela de pedidos.
+function criarLinhaPedido(compra) {
+    const linha = document.createElement("tr");
+    linha.append(
+        criarElemento("td", "", compra.id),
+        criarElemento("td", "", formatarDataHora(compra.dataHora)),
+        criarCelulaProdutos(compra),
+        criarElemento("td", "", formatarMoeda(compra.total)),
+        criarElemento("td", "", compra.status)
+    );
+    return linha;
+}
+
+// Lista os pedidos do cliente ou avisa que ainda não há nenhum.
+function exibirPedidos(cliente) {
+    const corpoTabela = document.getElementById("lista-pedidos");
+    const compras = listarComprasDoCliente(cliente.id);
+    corpoTabela.textContent = "";
+    if (compras.length === 0) {
+        const linha = document.createElement("tr");
+        const celula = criarElemento("td", "carrinho-vazio", "Você ainda não fez pedidos.");
+        celula.setAttribute("colspan", "5");
+        linha.append(celula);
+        corpoTabela.append(linha);
+        return;
+    }
+    compras.forEach((compra) => {
+        corpoTabela.append(criarLinhaPedido(compra));
+    });
+}
+
 /* ---------- inicio ---------- */
 
 // Liga o formulário, o telefone só com números e o botão de exclusão.
@@ -205,5 +249,6 @@ document.addEventListener("DOMContentLoaded", () => {
     iniciarPagina();
     preencherFormulario(usuario);
     configurarPerfil(usuario);
+    exibirPedidos(usuario);
     document.querySelector("main").hidden = false;
 });
