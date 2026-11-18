@@ -114,6 +114,18 @@ html, body {
         width: 100%;
     }
 
+    .menu-principal .saudacao-menu {
+        display: block;
+        padding: 0.8em 1em;
+    }
+
+    .menu-principal .botao-menu {
+        display: block;
+        width: 100%;
+        padding: 0.8em 1em;
+        text-align: left;
+    }
+
     /* truque do checkbox: quando marcado, libera a altura do menu.
        Se os itens nao couberem na altura da tela, o menu rola por dentro */
     .alternar-menu:checked ~ .menu-principal ul {

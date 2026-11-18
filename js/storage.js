@@ -103,6 +103,24 @@ export function gravarDados(chave, dados) {
 }
 
 /**
+ * Avança um contador de loja:contadores e devolve o novo número.
+ * O número nunca volta atrás, mesmo que registros sejam excluídos.
+ * @param {string} nomeContador - ex.: "clientes" ou "compras"
+ * @returns {number} o próximo número da sequência
+ */
+export function proximoNumero(nomeContador) {
+    const contadores = lerDados(CHAVES.contadores, {});
+    let atual = parseInt(contadores[nomeContador], 10);
+    if (isNaN(atual)) {
+        atual = 0;
+    }
+    atual++;
+    contadores[nomeContador] = atual;
+    gravarDados(CHAVES.contadores, contadores);
+    return atual;
+}
+
+/**
  * Apaga uma chave do localStorage.
  * @param {string} chave - uma das CHAVES
  * @returns {boolean} true se apagou, false se houve erro

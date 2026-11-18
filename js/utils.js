@@ -300,6 +300,61 @@ export function validarCartaoLuhn(numero) {
 }
 
 /**
+ * Informa quais tipos de caractere aparecem na senha.
+ * @param {string} senha - senha digitada
+ * @returns {Object} { minusculas, maiusculas, numeros, simbolos } (true/false)
+ */
+export function analisarSenha(senha) {
+    const resultado = { minusculas: false, maiusculas: false, numeros: false, simbolos: false };
+    for (let i = 0; i < senha.length; i++) {
+        const caractere = senha[i];
+        if (caractere >= "a" && caractere <= "z") {
+            resultado.minusculas = true;
+        } else if (caractere >= "A" && caractere <= "Z") {
+            resultado.maiusculas = true;
+        } else if (caractere >= "0" && caractere <= "9") {
+            resultado.numeros = true;
+        } else {
+            resultado.simbolos = true;
+        }
+    }
+    return resultado;
+}
+
+/**
+ * Calcula a força da senha de 0 a 5 pontos e o texto correspondente.
+ * @param {string} senha - senha digitada
+ * @returns {Object} { pontos, texto, nivel } com nivel "fraca", "media" ou "forte"
+ */
+export function calcularForcaSenha(senha) {
+    const tipos = analisarSenha(senha);
+    let pontos = 0;
+    if (senha.length >= 8) {
+        pontos++;
+    }
+    if (senha.length >= 12) {
+        pontos++;
+    }
+    if (tipos.minusculas && tipos.maiusculas) {
+        pontos++;
+    }
+    if (tipos.numeros) {
+        pontos++;
+    }
+    if (tipos.simbolos) {
+        pontos++;
+    }
+
+    if (pontos <= 2) {
+        return { pontos: pontos, texto: "Senha fraca", nivel: "fraca" };
+    }
+    if (pontos === 3) {
+        return { pontos: pontos, texto: "Senha média", nivel: "media" };
+    }
+    return { pontos: pontos, texto: "Senha forte", nivel: "forte" };
+}
+
+/**
  * Cria uma função que só executa depois de um tempo sem novas chamadas.
  * @param {Function} funcao - função a ser executada
  * @param {number} espera - tempo de espera em milissegundos

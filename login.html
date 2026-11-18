@@ -43,7 +43,7 @@
             <h1>Entrar na conta</h1>
             <p>Informe seu e-mail e senha para acessar sua conta Verde Vida.</p>
 
-            <form action="#" method="post" id="form-login">
+            <form action="#" method="post" id="form-login" novalidate>
                 <fieldset>
                     <legend>Login</legend>
 
@@ -63,6 +63,8 @@
                             Lembrar de mim
                         </label>
                     </div>
+
+                    <p class="mensagem-login" id="mensagem-login" role="alert" hidden></p>
 
                     <button type="submit" class="botao botao-bloco">Entrar</button>
                 </fieldset>
@@ -91,7 +93,7 @@
                 <p>(48) 3333-0000</p>
                 <p>contato@verdevida.exemplo.com.br</p>
             </div>
-            <div class="bloco-rodape">
+            <div class="bloco-rodape bloco-admin" hidden>
                 <h2>Administração</h2>
                 <p><a href="relatorios.html">Painel administrativo</a></p>
             </div>

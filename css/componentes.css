@@ -349,6 +349,53 @@ tfoot td {
     border-color: var(--erro);
 }
 
+/* mensagem geral do login (erro, bloqueio) */
+.mensagem-login {
+    background-color: var(--branco);
+    border: 1px solid var(--erro);
+    border-radius: 6px;
+    color: var(--erro);
+    font-weight: bold;
+    padding: 0.8em 1em;
+}
+
+/* ---------- indicador de forca da senha ---------- */
+
+.forca-senha {
+    height: 6px;
+    margin-top: 0.5em;
+    background-color: var(--verde-claro);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+/* a largura da barra e definida pelo JavaScript */
+.nivel-forca {
+    display: block;
+    width: 0;
+    height: 100%;
+    transition: width 0.2s ease-in-out;
+}
+
+.forca-fraca {
+    background-color: var(--erro);
+}
+
+.forca-media {
+    background-color: var(--amarelo);
+}
+
+.forca-forte {
+    background-color: var(--verde-medio);
+}
+
+.campo small.texto-forca {
+    display: block;
+    margin-top: 0.2em;
+    font-size: 0.85em;
+    font-weight: bold;
+}
+
 /* ---------- contador do carrinho no menu ---------- */
 
 .contador-carrinho {
