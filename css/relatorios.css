@@ -158,3 +158,138 @@ main.conteudo-admin {
         border-top: 1px solid #000;
     }
 }
+
+/* ---------- relatorios gerados pelo JS ---------- */
+
+.acoes-relatorio {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1em;
+}
+
+.acoes-relatorio a.botao:hover {
+    text-decoration: none;
+}
+
+.busca-admin .botao + .botao {
+    margin-left: 0.5em;
+}
+
+.total-registros {
+    font-size: 0.95em;
+    color: var(--marrom);
+}
+
+/* cabecalhos que ordenam a tabela: botao com a aparencia do proprio th */
+.botao-ordenar {
+    width: 100%;
+    min-height: 44px;
+    border: none;
+    background-color: transparent;
+    color: var(--branco);
+    font-family: var(--fonte-texto);
+    font-size: 1em;
+    font-weight: bold;
+    text-align: left;
+    cursor: pointer;
+}
+
+.botao-ordenar:hover {
+    text-decoration: underline;
+}
+
+th[aria-sort="ascending"] .botao-ordenar::after {
+    content: " ▲";
+}
+
+th[aria-sort="descending"] .botao-ordenar::after {
+    content: " ▼";
+}
+
+.paginacao {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.paginacao .pagina-atual {
+    margin: 0 1em;
+}
+
+mark {
+    background-color: var(--amarelo);
+    color: var(--texto);
+    padding: 0 0.1em;
+}
+
+.cliente-bloqueado td,
+.compra-cancelada td {
+    color: var(--erro);
+}
+
+.mensagem-nova td {
+    font-weight: bold;
+}
+
+.dados-compra {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 0.3em 1em;
+    margin-bottom: 1em;
+}
+
+.dados-compra dt {
+    font-weight: bold;
+}
+
+/* ---------- relatorios no celular ---------- */
+@media screen and (max-width: 767px) {
+
+    .indicadores {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .graficos-indicadores {
+        grid-template-columns: 1fr;
+    }
+
+    .busca-admin .botao + .botao {
+        margin-left: 0;
+    }
+
+    .acoes-relatorio .botao {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+
+    .indicadores {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- impressao dos relatorios gerados pelo JS ---------- */
+@media print {
+
+    .acoes-relatorio,
+    .paginacao,
+    .coluna-acoes,
+    .dialogo {
+        display: none;
+    }
+
+    .botao-ordenar {
+        color: #000;
+    }
+
+    .barra-grafico {
+        background-color: #000;
+    }
+
+    mark {
+        background-color: transparent;
+        font-weight: bold;
+    }
+}

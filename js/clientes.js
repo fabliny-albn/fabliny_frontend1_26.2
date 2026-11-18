@@ -1,5 +1,6 @@
 /* clientes.js
-   Cadastro, consulta e validação dos clientes (loja:clientes).
+   Cadastro, consulta e validação dos clientes (loja:clientes), bloqueio
+   pela administração e mensagens do formulário de contato (loja:mensagens).
    O CPF e o telefone são guardados só com números e o e-mail em minúsculas.
    A senha nunca é guardada: só o hash e o salt gerados em auth.js. */
 
@@ -284,4 +285,114 @@ export function adicionarAdministrador(administrador) {
     const lista = listarClientes();
     lista.push(administrador);
     salvarClientes(lista);
+}
+
+/* ---------- administracao ---------- */
+
+/**
+ * Lista só os clientes (sem a conta de administrador).
+ * @returns {Array} lista de clientes
+ */
+export function listarSomenteClientes() {
+    return listarClientes().filter((cliente) => cliente.perfil === "cliente");
+}
+
+/**
+ * Bloqueia ou desbloqueia um cliente.
+ * @param {string} id - id do cliente
+ * @param {string} situacao - "ativo" ou "bloqueado"
+ * @returns {Object} { sucesso, mensagem }
+ */
+export function alterarSituacaoCliente(id, situacao) {
+    if (situacao !== "ativo" && situacao !== "bloqueado") {
+        return { sucesso: false, mensagem: "Situação inválida." };
+    }
+    const lista = listarClientes();
+    const cliente = lista.find((item) => item.id === id && item.perfil === "cliente");
+    if (!cliente) {
+        return { sucesso: false, mensagem: "Cliente não encontrado." };
+    }
+    cliente.situacao = situacao;
+    if (!salvarClientes(lista)) {
+        return { sucesso: false, mensagem: "Não foi possível salvar a alteração neste navegador." };
+    }
+    if (situacao === "bloqueado") {
+        return { sucesso: true, mensagem: `${cliente.nome} foi bloqueado(a).` };
+    }
+    return { sucesso: true, mensagem: `${cliente.nome} foi desbloqueado(a).` };
+}
+
+/* ---------- mensagens de contato ---------- */
+
+/**
+ * Valida o texto da mensagem de contato (de 10 a 1000 caracteres).
+ * @param {string} texto - mensagem digitada
+ * @returns {string} mensagem de erro ou ""
+ */
+export function validarTextoMensagem(texto) {
+    const conteudo = `${texto}`.trim();
+    if (conteudo.length < 10) {
+        return "Escreva uma mensagem com pelo menos 10 caracteres.";
+    }
+    if (conteudo.length > 1000) {
+        return "A mensagem pode ter no máximo 1000 caracteres.";
+    }
+    return "";
+}
+
+/**
+ * Lista as mensagens de contato, da mais recente para a mais antiga.
+ * @returns {Array} lista de mensagens
+ */
+export function listarMensagens() {
+    const mensagens = lerDados(CHAVES.mensagens, []);
+    mensagens.sort((mensagemA, mensagemB) => Date.parse(mensagemB.dataHora) - Date.parse(mensagemA.dataHora));
+    return mensagens;
+}
+
+/**
+ * Valida de novo e guarda uma mensagem do formulário de contato.
+ * @param {Object} dados - { nome, email, mensagem }
+ * @returns {Object} { sucesso, mensagem }
+ */
+export function salvarMensagemContato(dados) {
+    let erro = validarNome(dados.nome);
+    if (erro === "" && !validarEmail(dados.email)) {
+        erro = "Informe um e-mail válido, como nome@exemplo.com.";
+    }
+    if (erro === "") {
+        erro = validarTextoMensagem(dados.mensagem);
+    }
+    if (erro !== "") {
+        return { sucesso: false, mensagem: erro };
+    }
+
+    const lista = lerDados(CHAVES.mensagens, []);
+    lista.push({
+        id: gerarCodigo("M", proximoNumero("mensagens"), 3),
+        nome: dados.nome.trim(),
+        email: dados.email.trim().toLowerCase(),
+        mensagem: dados.mensagem.trim(),
+        dataHora: new Date().toUTCString(),
+        lida: false
+    });
+    if (!gravarDados(CHAVES.mensagens, lista)) {
+        return { sucesso: false, mensagem: "Não foi possível enviar a mensagem neste navegador." };
+    }
+    return { sucesso: true, mensagem: "Mensagem enviada! Responderemos pelo e-mail informado." };
+}
+
+/**
+ * Marca uma mensagem de contato como lida.
+ * @param {string} id - id da mensagem
+ * @returns {boolean} true se gravou
+ */
+export function marcarMensagemLida(id) {
+    const lista = lerDados(CHAVES.mensagens, []);
+    const mensagem = lista.find((item) => item.id === id);
+    if (!mensagem) {
+        return false;
+    }
+    mensagem.lida = true;
+    return gravarDados(CHAVES.mensagens, lista);
 }

@@ -719,3 +719,78 @@ tfoot td {
 .detalhes-compra dt {
     font-weight: bold;
 }
+
+/* ---------- painel de indicadores (area administrativa) ---------- */
+
+.indicadores {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 1em;
+    margin-bottom: 1.2em;
+}
+
+.indicador,
+.cartao-indicador {
+    background-color: var(--branco);
+    border: 1px solid var(--verde-claro);
+    border-radius: 8px;
+    padding: 1em;
+}
+
+.rotulo-indicador {
+    font-size: 0.9em;
+    color: var(--marrom);
+    margin-bottom: 0.3em;
+}
+
+.valor-indicador {
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    font-size: 1.6em;
+    color: var(--verde-escuro);
+    margin-bottom: 0;
+}
+
+.graficos-indicadores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1em;
+}
+
+.mais-vendidos {
+    margin-left: 1.4em;
+}
+
+.mais-vendidos li {
+    margin-bottom: 0.3em;
+}
+
+/* grafico de barras feito com div: o JS define a largura de cada barra */
+.grafico-barras {
+    list-style: none;
+}
+
+.linha-grafico {
+    display: grid;
+    grid-template-columns: 3.2em 1fr 6.5em;
+    grid-gap: 0.5em;
+    align-items: center;
+    margin-bottom: 0.4em;
+}
+
+.trilho-barra {
+    height: 1.2em;
+    background-color: var(--verde-fundo);
+    border-radius: 4px;
+}
+
+.barra-grafico {
+    height: 100%;
+    background-color: var(--verde-escuro);
+    border-radius: 4px;
+}
+
+.valor-barra {
+    text-align: right;
+    font-size: 0.9em;
+}

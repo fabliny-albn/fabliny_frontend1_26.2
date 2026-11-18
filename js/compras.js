@@ -16,6 +16,9 @@ import {
     adicionarDefinicao
 } from "./utils.js";
 
+/** Situações possíveis de uma compra, na ordem em que acontecem. */
+export const STATUS_COMPRA = ["Pago", "Enviado", "Entregue", "Cancelado"];
+
 // Nomes das formas de pagamento para exibição.
 const NOMES_PAGAMENTO = {
     pix: "Pix",
@@ -300,6 +303,47 @@ export function registrarCompra(pedido) {
     }
     baixarEstoque(itensCompra);
     return { sucesso: true, mensagem: `Compra ${compra.id} registrada com sucesso!`, compra: compra };
+}
+
+/**
+ * Muda o status de uma compra. Ao cancelar, devolve os itens ao estoque
+ * uma única vez; depois de cancelada, a compra não muda mais.
+ * @param {string} id - id da compra
+ * @param {string} novoStatus - um dos STATUS_COMPRA
+ * @returns {Object} { sucesso, mensagem }
+ */
+export function alterarStatusCompra(id, novoStatus) {
+    if (!STATUS_COMPRA.find((status) => status === novoStatus)) {
+        return { sucesso: false, mensagem: "Status inválido." };
+    }
+    const lista = listarCompras();
+    const compra = lista.find((item) => item.id === id);
+    if (!compra) {
+        return { sucesso: false, mensagem: "Compra não encontrada." };
+    }
+    if (compra.status === "Cancelado") {
+        return { sucesso: false, mensagem: "Esta compra já foi cancelada e não pode mudar de status." };
+    }
+    if (compra.status === novoStatus) {
+        return { sucesso: false, mensagem: `A compra ${id} já está com o status ${novoStatus}.` };
+    }
+
+    compra.status = novoStatus;
+    const devolver = novoStatus === "Cancelado" && !compra.estoqueDevolvido;
+    if (devolver) {
+        compra.estoqueDevolvido = true;
+    }
+    if (!gravarDados(CHAVES.compras, lista)) {
+        return { sucesso: false, mensagem: "Não foi possível salvar o status neste navegador." };
+    }
+    // A devolução só acontece depois de a marca ficar gravada, para não repetir
+    if (devolver) {
+        compra.itens.forEach((item) => {
+            alterarEstoque(item.idProduto, item.quantidade);
+        });
+        return { sucesso: true, mensagem: `Compra ${id} cancelada. Os itens voltaram para o estoque.` };
+    }
+    return { sucesso: true, mensagem: `Status da compra ${id} alterado para ${novoStatus}.` };
 }
 
 /* ---------- exibicao das compras ---------- */

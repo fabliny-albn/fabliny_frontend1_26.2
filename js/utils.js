@@ -5,6 +5,7 @@
 const formatadorMoeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
 const formatadorData = new Intl.DateTimeFormat("pt-BR", { dateStyle: "short" });
 const formatadorDataHora = new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" });
+const formatadorHora = new Intl.DateTimeFormat("pt-BR", { timeStyle: "short" });
 
 /* ---------- textos ---------- */
 
@@ -139,6 +140,15 @@ export function formatarData(data) {
  */
 export function formatarDataHora(data) {
     return formatadorDataHora.format(new Date(data));
+}
+
+/**
+ * Formata só a hora (hh:mm).
+ * @param {string|number} data - data em texto ou em milissegundos
+ * @returns {string} a hora formatada
+ */
+export function formatarHora(data) {
+    return formatadorHora.format(new Date(data));
 }
 
 /* ---------- máscaras ---------- */

@@ -94,7 +94,7 @@
                     </dl>
                 </div>
                 <div>
-                    <form action="#" method="post" id="form-contato">
+                    <form action="#" method="post" id="form-contato" novalidate>
                         <fieldset>
                             <legend>Envie uma mensagem</legend>
 
@@ -110,7 +110,8 @@
 
                             <div class="campo">
                                 <label for="contato-mensagem">Mensagem</label>
-                                <textarea id="contato-mensagem" name="mensagem" rows="4" placeholder="Como podemos ajudar?" required></textarea>
+                                <textarea id="contato-mensagem" name="mensagem" rows="4" placeholder="Como podemos ajudar?" maxlength="1000" required></textarea>
+                                <small class="ajuda">Escreva pelo menos 10 caracteres.</small>
                             </div>
 
                             <button type="submit" class="botao botao-bloco">Enviar mensagem</button>
