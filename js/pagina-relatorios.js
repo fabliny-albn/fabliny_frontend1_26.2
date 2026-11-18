@@ -357,6 +357,10 @@ function validarIntervalos(filtros) {
 // Cria uma linha do relatório de compras.
 function criarLinhaCompra(compra) {
     const linha = document.createElement("tr");
+    const celulaAcao = criarCelulaBotao("Detalhes", `Ver detalhes da compra ${compra.id}`, (evento) => {
+        abrirDetalhesCompra(compra.id, evento.currentTarget);
+    });
+    celulaAcao.querySelector("button").id = `detalhes-${compra.id}`;
     if (compra.status === "Cancelado") {
         linha.classList.add("compra-cancelada");
     }
@@ -368,9 +372,7 @@ function criarLinhaCompra(compra) {
         criarElemento("td", "", formatarMoeda(compra.total)),
         criarElemento("td", "", formatarDataHora(compra.dataHora)),
         criarElemento("td", "", compra.status),
-        criarCelulaBotao("Detalhes", `Ver detalhes da compra ${compra.id}`, () => {
-            abrirDetalhesCompra(compra.id);
-        })
+        celulaAcao
     );
     return linha;
 }
@@ -459,6 +461,11 @@ function salvarStatus(idCompra, novoStatus) {
     fecharDialogo();
     exibirCompras();
     exibirIndicadores();
+    // A tabela foi redesenhada: o foco vai para o novo botão da mesma compra
+    const botao = document.getElementById(`detalhes-${idCompra}`);
+    if (botao) {
+        botao.focus();
+    }
 }
 
 // Cria o campo para escolher o novo status e o botão de salvar.
@@ -490,7 +497,7 @@ function criarAlteracaoStatus(compra) {
 }
 
 // Abre o diálogo com os dados da compra e a alteração de status.
-function abrirDetalhesCompra(idCompra) {
+function abrirDetalhesCompra(idCompra, origem) {
     const compra = listarCompras().find((item) => item.id === idCompra);
     if (!compra) {
         mostrarToast("Compra não encontrada.", "erro");
@@ -509,7 +516,7 @@ function abrirDetalhesCompra(idCompra) {
     } else {
         conteudo.append(criarAlteracaoStatus(compra));
     }
-    abrirDialogo(`Compra ${compra.id}`, conteudo);
+    abrirDialogo(`Compra ${compra.id}`, conteudo, origem);
 }
 
 /* ---------- mensagens de contato ---------- */

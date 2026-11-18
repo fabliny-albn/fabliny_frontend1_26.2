@@ -82,6 +82,26 @@ main.conteudo-admin {
     padding: 0.6em 0.2em;
 }
 
+/* botao de troca de tema no cabecalho admin */
+.cabecalho-admin .botao-tema {
+    min-height: 44px;
+    margin-left: 1em;
+    padding: 0.4em 0.9em;
+    font-family: var(--fonte-texto);
+    font-size: 1em;
+    font-weight: bold;
+    color: var(--creme);
+    background-color: transparent;
+    border: 2px solid var(--creme);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.cabecalho-admin .botao-tema:hover {
+    background-color: var(--verde-escuro);
+    border-color: var(--verde-escuro);
+}
+
 /* ---------- area admin no celular (mesmo ponto de responsivo.css) ---------- */
 @media screen and (max-width: 767px) {
 
@@ -274,6 +294,7 @@ mark {
 @media print {
 
     .acoes-relatorio,
+    .botao-tema,
     .paginacao,
     .coluna-acoes,
     .dialogo {

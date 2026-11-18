@@ -43,6 +43,53 @@ html {
     --espaco-grande: 2em;
 }
 
+/* tema escuro: o JS coloca data-tema="escuro" no <html>.
+   As cores trocam de papel: os verdes escuros viram claros (texto,
+   titulos e botoes) e os fundos claros viram escuros */
+:root[data-tema="escuro"] {
+    --verde-escuro: #95d5b2;
+    --verde-medio: #74c69d;
+    --verde-claro: #2d6a4f;
+    --verde-fundo: #1b3a2b;
+    --marrom: #dcc0a5;
+    --marrom-claro: #8a6a52;
+    --creme: #12211a;
+    --texto: #e8f3ec;
+    --branco: #1a2e24;
+    --erro: #ff8a80;
+    --sombra: rgba(0, 0, 0, 0.45);
+
+    /* campos de data, barras de rolagem etc. do navegador tambem no escuro */
+    color-scheme: dark;
+}
+
+/* ajustes pontuais do tema escuro (so na tela): textos sobre fundos que ficaram claros */
+@media screen {
+    :root[data-tema="escuro"] .rodape h2,
+    :root[data-tema="escuro"] .rodape a:hover,
+    :root[data-tema="escuro"] .selo-admin,
+    :root[data-tema="escuro"] mark {
+        color: var(--creme);
+    }
+}
+
+/* na impressao vale sempre o tema claro, para o texto aparecer no papel */
+@media print {
+    :root[data-tema="escuro"] {
+        --verde-escuro: #2d6a4f;
+        --verde-medio: #52b788;
+        --verde-claro: #b7e4c7;
+        --verde-fundo: #d8f3dc;
+        --marrom: #79553d;
+        --marrom-claro: #bc987e;
+        --creme: #fdf8f0;
+        --texto: #1b3a2b;
+        --branco: #ffffff;
+        --erro: #c0392b;
+        color-scheme: light;
+    }
+}
+
 html {
     scroll-behavior: smooth;
 }

@@ -87,6 +87,21 @@ html, body {
         margin-left: auto;
     }
 
+    /* o checkbox fica invisivel mas continua recebendo o foco do teclado
+       (Tab chega nele e a barra de espaco abre e fecha o menu) */
+    .alternar-menu {
+        display: block;
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+    }
+
+    .alternar-menu:focus-visible + .rotulo-menu {
+        outline: 3px solid var(--amarelo);
+        outline-offset: 2px;
+    }
+
     /* top: 100% posiciona o menu logo abaixo do cabecalho fixo,
        qualquer que seja a altura dele */
     .menu-principal ul {

@@ -1,7 +1,9 @@
 /* ui.js
    Partes de interface usadas em várias páginas: avisos (toasts), diálogo,
-   menu dinâmico, contador do carrinho, erros de formulário e catálogo. */
+   tema claro/escuro, menu dinâmico, contador do carrinho, erros de
+   formulário e catálogo. */
 
+import { CHAVES, lerDados, gravarDados } from "./storage.js";
 import { criarElemento } from "./utils.js";
 import { criarCartaoProduto, criarDetalhesProduto } from "./produtos.js";
 import { adicionarAoCarrinho, contarItens, quantidadeDisponivel } from "./carrinho.js";
@@ -17,6 +19,13 @@ import {
 
 const TEMPO_TOAST = 4000;
 const INTERVALO_VERIFICACAO_SESSAO = 15000;
+const TEMA_ESCURO = "escuro";
+const TEMA_CLARO = "claro";
+
+// Elemento que abriu o diálogo, para receber o foco de volta ao fechar.
+const estadoDialogo = {
+    origem: null
+};
 
 /* ---------- toasts ---------- */
 
@@ -72,9 +81,7 @@ function obterDialogo() {
     const botaoFechar = criarElemento("button", "botao-fechar-dialogo", "×");
     botaoFechar.type = "button";
     botaoFechar.setAttribute("aria-label", "Fechar");
-    botaoFechar.addEventListener("click", () => {
-        dialogo.close();
-    });
+    botaoFechar.addEventListener("click", fecharDialogo);
     cabecalho.append(titulo, botaoFechar);
 
     const corpo = criarElemento("div", "corpo-dialogo", "");
@@ -84,7 +91,15 @@ function obterDialogo() {
     // Fecha ao clicar fora do conteúdo (no fundo escurecido)
     dialogo.addEventListener("click", (evento) => {
         if (evento.target === dialogo) {
-            dialogo.close();
+            fecharDialogo();
+        }
+    });
+
+    // Esc fecha pelo mesmo caminho dos outros botões, para o foco voltar
+    dialogo.addEventListener("keydown", (evento) => {
+        if (evento.key === "Escape") {
+            evento.preventDefault();
+            fecharDialogo();
         }
     });
 
@@ -96,10 +111,12 @@ function obterDialogo() {
  * Abre o diálogo modal com um título e um conteúdo.
  * @param {string} titulo - título exibido no topo
  * @param {HTMLElement} conteudo - elemento colocado no corpo do diálogo
+ * @param {HTMLElement} origem - botão que abriu o diálogo (recebe o foco ao fechar)
  * @returns {void}
  */
-export function abrirDialogo(titulo, conteudo) {
+export function abrirDialogo(titulo, conteudo, origem) {
     const dialogo = obterDialogo();
+    estadoDialogo.origem = origem || null;
     dialogo.querySelector("#titulo-dialogo").textContent = titulo;
     const corpo = dialogo.querySelector(".corpo-dialogo");
     corpo.textContent = "";
@@ -108,7 +125,7 @@ export function abrirDialogo(titulo, conteudo) {
 }
 
 /**
- * Fecha o diálogo modal, se estiver aberto.
+ * Fecha o diálogo modal e devolve o foco ao botão que o abriu.
  * @returns {void}
  */
 export function fecharDialogo() {
@@ -116,6 +133,78 @@ export function fecharDialogo() {
     if (dialogo) {
         dialogo.close();
     }
+    if (estadoDialogo.origem) {
+        estadoDialogo.origem.focus();
+        estadoDialogo.origem = null;
+    }
+}
+
+/* ---------- tema claro/escuro ---------- */
+
+// Descobre o tema: o salvo em loja:tema ou, na primeira visita, o do sistema.
+function temaInicial() {
+    const salvo = lerDados(CHAVES.tema, "");
+    if (salvo === TEMA_ESCURO || salvo === TEMA_CLARO) {
+        return salvo;
+    }
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        return TEMA_ESCURO;
+    }
+    return TEMA_CLARO;
+}
+
+// Informa o tema que está em uso na página.
+function temaAtual() {
+    if (document.querySelector("html").getAttribute("data-tema") === TEMA_ESCURO) {
+        return TEMA_ESCURO;
+    }
+    return TEMA_CLARO;
+}
+
+// Escreve no botão o tema que ele vai ativar.
+function atualizarBotaoTema(botao) {
+    if (temaAtual() === TEMA_ESCURO) {
+        botao.textContent = "Tema claro";
+        botao.setAttribute("aria-label", "Usar o tema claro");
+    } else {
+        botao.textContent = "Tema escuro";
+        botao.setAttribute("aria-label", "Usar o tema escuro");
+    }
+}
+
+// Coloca ou tira o atributo data-tema do <html> e atualiza o botão.
+function aplicarTema(tema) {
+    const raiz = document.querySelector("html");
+    if (tema === TEMA_ESCURO) {
+        raiz.setAttribute("data-tema", TEMA_ESCURO);
+    } else {
+        raiz.removeAttribute("data-tema");
+    }
+    const botao = document.getElementById("alternar-tema");
+    if (botao) {
+        atualizarBotaoTema(botao);
+    }
+}
+
+// Troca o tema e guarda a escolha para as próximas visitas.
+function alternarTema() {
+    let novoTema = TEMA_ESCURO;
+    if (temaAtual() === TEMA_ESCURO) {
+        novoTema = TEMA_CLARO;
+    }
+    gravarDados(CHAVES.tema, novoTema);
+    aplicarTema(novoTema);
+}
+
+// Cria o item do menu com o botão de troca de tema.
+function criarItemTema() {
+    const item = document.createElement("li");
+    const botao = criarElemento("button", "botao-menu", "");
+    botao.type = "button";
+    botao.id = "alternar-tema";
+    atualizarBotaoTema(botao);
+    item.append(botao);
+    return item;
 }
 
 /* ---------- menu dinamico ---------- */
@@ -189,7 +278,7 @@ function montarMenu(usuario) {
         }
         listaMenu.append(criarItemSair());
     }
-    listaMenu.append(criarItemCarrinho());
+    listaMenu.append(criarItemCarrinho(), criarItemTema());
 }
 
 // Mostra o bloco "Administração" do rodapé só para o administrador.
@@ -238,13 +327,20 @@ function acompanharSessao() {
 }
 
 /**
- * Prepara as partes comuns da página: conta do administrador, menu,
+ * Prepara as partes comuns da página: tema, conta do administrador, menu,
  * rodapé, contador do carrinho, aviso pendente e controle da sessão.
  * @returns {void}
  */
 export function iniciarPagina() {
+    aplicarTema(temaInicial());
     garantirAdministrador();
     atualizarMenu();
+    // Um só ouvinte serve para o botão do menu (que é recriado) e o da área admin
+    document.addEventListener("click", (evento) => {
+        if (evento.target.id === "alternar-tema") {
+            alternarTema();
+        }
+    });
     const aviso = retirarAviso();
     if (aviso) {
         mostrarToast(aviso, "info");
@@ -261,12 +357,11 @@ export function iniciarPagina() {
  * @returns {void}
  */
 export function mostrarErroCampo(entrada, mensagem) {
-    const campo = entrada.parentElement;
-    let erro = campo.querySelector(".mensagem-erro");
+    let erro = document.getElementById(`erro-${entrada.id}`);
     if (!erro) {
         erro = criarElemento("small", "mensagem-erro", "");
         erro.id = `erro-${entrada.id}`;
-        campo.append(erro);
+        entrada.after(erro);
     }
     erro.textContent = mensagem;
     entrada.setAttribute("aria-invalid", "true");
@@ -279,7 +374,7 @@ export function mostrarErroCampo(entrada, mensagem) {
  * @returns {void}
  */
 export function limparErroCampo(entrada) {
-    const erro = entrada.parentElement.querySelector(".mensagem-erro");
+    const erro = document.getElementById(`erro-${entrada.id}`);
     if (erro) {
         erro.remove();
     }
@@ -350,14 +445,14 @@ function tratarAdicao(idProduto, quantidade, aoMudarCarrinho) {
 }
 
 // Abre o diálogo com os detalhes do produto e o seletor de quantidade.
-function abrirDetalhes(produto, aoMudarCarrinho) {
+function abrirDetalhes(produto, aoMudarCarrinho, origem) {
     const disponivel = quantidadeDisponivel(produto.id);
     const detalhes = criarDetalhesProduto(produto, disponivel, (quantidade) => {
         if (tratarAdicao(produto.id, quantidade, aoMudarCarrinho)) {
             fecharDialogo();
         }
     });
-    abrirDialogo(produto.nome, detalhes);
+    abrirDialogo(produto.nome, detalhes, origem);
 }
 
 /**
@@ -379,8 +474,8 @@ export function exibirCatalogo(grade, lista, aoMudarCarrinho) {
             () => {
                 tratarAdicao(produto.id, 1, aoMudarCarrinho);
             },
-            () => {
-                abrirDetalhes(produto, aoMudarCarrinho);
+            (evento) => {
+                abrirDetalhes(produto, aoMudarCarrinho, evento.currentTarget);
             }
         );
         grade.append(cartao);

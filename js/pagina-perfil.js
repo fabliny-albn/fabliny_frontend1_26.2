@@ -156,7 +156,7 @@ function excluirConta() {
 }
 
 // Abre o diálogo pedindo a confirmação da exclusão.
-function confirmarExclusao() {
+function confirmarExclusao(evento) {
     const conteudo = criarElemento("div", "", "");
     const texto = criarElemento("p", "", "Tem certeza? Esta ação não pode ser desfeita: o seu cadastro será apagado e a sessão encerrada.");
     const acoes = criarElemento("div", "acoes-dialogo", "");
@@ -173,7 +173,7 @@ function confirmarExclusao() {
 
     acoes.append(botaoCancelar, botaoExcluir);
     conteudo.append(texto, acoes);
-    abrirDialogo("Excluir conta", conteudo);
+    abrirDialogo("Excluir conta", conteudo, evento.currentTarget);
 }
 
 /* ---------- meus pedidos ---------- */
