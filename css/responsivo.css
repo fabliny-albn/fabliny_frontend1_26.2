@@ -164,6 +164,21 @@ html, body {
     .rodape .bloco-rodape {
         margin-right: 0;
     }
+
+    /* detalhes do produto: imagem em cima, informacoes embaixo */
+    .detalhes-produto {
+        grid-template-columns: 1fr;
+    }
+
+    .detalhes-produto img {
+        height: 200px;
+    }
+
+    /* toasts ocupam a largura da tela, sempre embaixo */
+    .area-toasts {
+        left: 1em;
+        width: auto;
+    }
 }
 
 /* ---------------------------------------------------- */

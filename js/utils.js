@@ -1,0 +1,314 @@
+/* utils.js
+   Funções de apoio usadas em várias páginas: validações, máscaras,
+   formatação de moeda e data, normalização de texto e criação de elementos. */
+
+const formatadorMoeda = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" });
+const formatadorData = new Intl.DateTimeFormat("pt-BR", { dateStyle: "short" });
+const formatadorDataHora = new Intl.DateTimeFormat("pt-BR", { dateStyle: "short", timeStyle: "short" });
+
+/* ---------- textos ---------- */
+
+/**
+ * Remove tudo o que não for número de um texto.
+ * @param {string} texto - texto digitado
+ * @returns {string} somente os dígitos
+ */
+export function somenteDigitos(texto) {
+    return `${texto}`.replace(/\D/g, "");
+}
+
+/**
+ * Deixa o texto em minúsculas, sem acentos e sem espaços nas pontas.
+ * @param {string} texto - texto original
+ * @returns {string} texto normalizado para comparações
+ */
+export function normalizarTexto(texto) {
+    return `${texto}`.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().trim();
+}
+
+/**
+ * Troca os caracteres especiais do HTML pelas entidades correspondentes.
+ * @param {string} texto - texto original
+ * @returns {string} texto seguro para exibir como HTML
+ */
+export function escaparHtml(texto) {
+    const original = `${texto}`;
+    let resultado = "";
+    for (let i = 0; i < original.length; i++) {
+        switch (original[i]) {
+            case "&":
+                resultado += "&amp;";
+                break;
+            case "<":
+                resultado += "&lt;";
+                break;
+            case ">":
+                resultado += "&gt;";
+                break;
+            case "\"":
+                resultado += "&quot;";
+                break;
+            case "'":
+                resultado += "&#39;";
+                break;
+            default:
+                resultado += original[i];
+        }
+    }
+    return resultado;
+}
+
+/**
+ * Cria um elemento HTML com classe e texto (o texto entra via textContent).
+ * @param {string} tag - nome da tag, ex.: "p"
+ * @param {string} classe - classe CSS ("" para nenhuma)
+ * @param {string} texto - conteúdo de texto ("" para nenhum)
+ * @returns {HTMLElement} o elemento criado
+ */
+export function criarElemento(tag, classe, texto) {
+    const elemento = document.createElement(tag);
+    if (classe) {
+        elemento.classList.add(classe);
+    }
+    if (texto) {
+        elemento.textContent = texto;
+    }
+    return elemento;
+}
+
+/**
+ * Monta um código com prefixo e zeros à esquerda, ex.: C001, CP012.
+ * @param {string} prefixo - letras iniciais
+ * @param {number} numero - número sequencial
+ * @param {number} tamanho - quantidade mínima de dígitos
+ * @returns {string} o código montado
+ */
+export function gerarCodigo(prefixo, numero, tamanho) {
+    const numeroTexto = `${numero}`;
+    let zeros = "";
+    for (let i = numeroTexto.length; i < tamanho; i++) {
+        zeros += "0";
+    }
+    return prefixo + zeros + numeroTexto;
+}
+
+/* ---------- moeda e datas ---------- */
+
+/**
+ * Formata um número como moeda brasileira (R$).
+ * @param {number} valor - valor em reais
+ * @returns {string} ex.: "R$ 24,90"
+ */
+export function formatarMoeda(valor) {
+    return formatadorMoeda.format(valor);
+}
+
+/**
+ * Arredonda um valor para 2 casas decimais.
+ * @param {number} valor - valor em reais
+ * @returns {number} valor arredondado
+ */
+export function arredondarMoeda(valor) {
+    return parseFloat(valor.toFixed(2));
+}
+
+/**
+ * Formata uma data no padrão brasileiro (dd/mm/aaaa).
+ * @param {string|number} data - data em texto ISO ou em milissegundos
+ * @returns {string} a data formatada
+ */
+export function formatarData(data) {
+    return formatadorData.format(new Date(data));
+}
+
+/**
+ * Formata data e hora no padrão brasileiro (dd/mm/aaaa hh:mm).
+ * @param {string|number} data - data em texto ISO ou em milissegundos
+ * @returns {string} a data e hora formatadas
+ */
+export function formatarDataHora(data) {
+    return formatadorDataHora.format(new Date(data));
+}
+
+/* ---------- máscaras ---------- */
+
+/**
+ * Aplica a máscara 000.000.000-00 enquanto o CPF é digitado.
+ * @param {string} valor - texto digitado
+ * @returns {string} CPF com pontos e traço
+ */
+export function mascararCpf(valor) {
+    const digitos = somenteDigitos(valor).slice(0, 11);
+    let resultado = "";
+    for (let i = 0; i < digitos.length; i++) {
+        if (i === 3 || i === 6) {
+            resultado += ".";
+        }
+        if (i === 9) {
+            resultado += "-";
+        }
+        resultado += digitos[i];
+    }
+    return resultado;
+}
+
+/**
+ * Formata um telefone salvo só com números, ex.: (48) 99999-0000.
+ * @param {string} telefone - 10 ou 11 dígitos
+ * @returns {string} telefone formatado para exibição
+ */
+export function formatarTelefone(telefone) {
+    const digitos = somenteDigitos(telefone);
+    if (digitos.length < 10) {
+        return digitos;
+    }
+    let resultado = "(";
+    for (let i = 0; i < digitos.length; i++) {
+        if (i === 2) {
+            resultado += ") ";
+        }
+        if (i === digitos.length - 4) {
+            resultado += "-";
+        }
+        resultado += digitos[i];
+    }
+    return resultado;
+}
+
+/* ---------- validações ---------- */
+
+/**
+ * Verifica se o e-mail tem um formato válido (nome@dominio.ext).
+ * @param {string} email - e-mail digitado
+ * @returns {boolean} true se o formato for válido
+ */
+export function validarEmail(email) {
+    const texto = `${email}`.trim();
+    let quantidadeArrobas = 0;
+    let posicaoArroba = -1;
+    for (let i = 0; i < texto.length; i++) {
+        if (texto[i] === " ") {
+            return false;
+        }
+        if (texto[i] === "@") {
+            quantidadeArrobas++;
+            posicaoArroba = i;
+        }
+    }
+    if (quantidadeArrobas !== 1 || posicaoArroba === 0) {
+        return false;
+    }
+
+    // O domínio precisa ter um ponto, que não pode estar nas pontas
+    const dominio = texto.slice(posicaoArroba + 1);
+    if (!dominio.includes(".") || dominio.includes("..")) {
+        return false;
+    }
+    if (dominio[0] === "." || dominio[dominio.length - 1] === ".") {
+        return false;
+    }
+    return true;
+}
+
+// Calcula um dígito verificador do CPF a partir dos primeiros dígitos.
+function calcularDigitoCpf(digitos, quantidade) {
+    let soma = 0;
+    for (let i = 0; i < quantidade; i++) {
+        soma += parseInt(digitos[i], 10) * (quantidade + 1 - i);
+    }
+    const resto = soma % 11;
+    if (resto < 2) {
+        return 0;
+    }
+    return 11 - resto;
+}
+
+// Verifica se todos os caracteres do texto são iguais (ex.: 11111111111).
+function todosIguais(texto) {
+    for (let i = 1; i < texto.length; i++) {
+        if (texto[i] !== texto[0]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+/**
+ * Verifica o CPF pelos dígitos verificadores (aceita com ou sem máscara).
+ * @param {string} cpf - CPF digitado
+ * @returns {boolean} true se o CPF for válido
+ */
+export function validarCpf(cpf) {
+    const digitos = somenteDigitos(cpf);
+    if (digitos.length !== 11 || todosIguais(digitos)) {
+        return false;
+    }
+    const primeiroDigito = calcularDigitoCpf(digitos, 9);
+    const segundoDigito = calcularDigitoCpf(digitos, 10);
+    return primeiroDigito === parseInt(digitos[9], 10) && segundoDigito === parseInt(digitos[10], 10);
+}
+
+/**
+ * Verifica o telefone: só números, 10 ou 11 dígitos, DDD de 11 a 99
+ * e, com 11 dígitos, o terceiro dígito precisa ser 9.
+ * @param {string} telefone - telefone digitado
+ * @returns {boolean} true se o telefone for válido
+ */
+export function validarTelefone(telefone) {
+    const texto = `${telefone}`;
+    if (somenteDigitos(texto) !== texto) {
+        return false;
+    }
+    if (texto.length !== 10 && texto.length !== 11) {
+        return false;
+    }
+    const ddd = parseInt(texto.slice(0, 2), 10);
+    if (ddd < 11) {
+        return false;
+    }
+    if (texto.length === 11 && texto[2] !== "9") {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Verifica o número do cartão com o algoritmo de Luhn.
+ * @param {string} numero - número do cartão (com ou sem espaços)
+ * @returns {boolean} true se o número passar na verificação
+ */
+export function validarCartaoLuhn(numero) {
+    const digitos = somenteDigitos(numero);
+    if (digitos.length < 13 || digitos.length > 19) {
+        return false;
+    }
+    let soma = 0;
+    let dobrar = false;
+    // Percorre da direita para a esquerda, dobrando um dígito sim, outro não
+    for (let i = digitos.length - 1; i >= 0; i--) {
+        let valor = parseInt(digitos[i], 10);
+        if (dobrar) {
+            valor = valor * 2;
+            if (valor > 9) {
+                valor -= 9;
+            }
+        }
+        soma += valor;
+        dobrar = !dobrar;
+    }
+    return soma % 10 === 0;
+}
+
+/**
+ * Cria uma função que só executa depois de um tempo sem novas chamadas.
+ * @param {Function} funcao - função a ser executada
+ * @param {number} espera - tempo de espera em milissegundos
+ * @returns {Function} a nova função com espera
+ */
+export function criarDebounce(funcao, espera) {
+    let temporizador = null;
+    return function () {
+        clearTimeout(temporizador);
+        temporizador = setTimeout(funcao, espera);
+    };
+}

@@ -313,3 +313,197 @@ tfoot td {
 .rotulo-menu .barra-menu:nth-child(2) { top: 10px; }
 .rotulo-menu .barra-menu:nth-child(3) { top: 20px; }
 .rotulo-menu .barra-menu:nth-child(4) { top: 30px; }
+
+/* segundo botao do cartao ("Ver detalhes") com um respiro em cima */
+.cartao-produto .botao + .botao {
+    margin-top: 0.5em;
+}
+
+/* mensagem quando a busca nao encontra nada: ocupa a linha inteira da grade */
+.mensagem-vazia {
+    grid-column: 1 / -1;
+    background-color: var(--branco);
+    border: 1px dashed var(--marrom-claro);
+    border-radius: 8px;
+    padding: 1.5em;
+    text-align: center;
+}
+
+.resultado-filtros {
+    margin-top: 0.8em;
+    font-size: 0.9em;
+    color: var(--marrom);
+}
+
+/* ---------- mensagens de erro junto ao campo ---------- */
+
+.campo small.mensagem-erro {
+    display: block;
+    margin-top: 0.3em;
+    font-size: 0.85em;
+    color: var(--erro);
+    font-weight: bold;
+}
+
+.campo input[aria-invalid="true"] {
+    border-color: var(--erro);
+}
+
+/* ---------- contador do carrinho no menu ---------- */
+
+.contador-carrinho {
+    display: inline-block;
+    min-width: 1.6em;
+    padding: 0 0.4em;
+    border-radius: 1em;
+    background-color: var(--amarelo);
+    color: var(--texto);
+    font-size: 0.85em;
+    text-align: center;
+}
+
+/* ---------- carrinho: botoes - e + ---------- */
+
+.controle-quantidade {
+    display: flex;
+    align-items: center;
+}
+
+.controle-quantidade .botao {
+    min-width: 44px;
+    padding: 0.3em 0.6em;
+}
+
+.controle-quantidade .valor-quantidade {
+    min-width: 2em;
+    margin: 0 0.4em;
+    text-align: center;
+    font-weight: bold;
+}
+
+.botao:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.carrinho-vazio {
+    text-align: center;
+}
+
+/* ---------- avisos temporarios (toasts) ----------
+   ficam embaixo, para nao cobrir o menu do cabecalho */
+
+.area-toasts {
+    position: fixed;
+    right: 1em;
+    bottom: 1em;
+    z-index: 1100;
+    width: 320px;
+    max-width: calc(100% - 2em);
+}
+
+.toast {
+    margin-bottom: 0;
+    margin-top: 0.5em;
+    padding: 0.8em 1em;
+    border-radius: 6px;
+    background-color: var(--verde-escuro);
+    color: var(--branco);
+    box-shadow: 0 4px 10px var(--sombra);
+}
+
+.toast-erro {
+    background-color: var(--erro);
+}
+
+.toast-info {
+    background-color: var(--marrom);
+}
+
+/* ---------- dialogo (modal) ----------
+   largura de ate 92% da tela e rolagem interna quando o conteudo e grande */
+
+.dialogo {
+    width: 92%;
+    max-width: 640px;
+    max-height: 90vh;
+    margin: auto;
+    padding: 0;
+    border: 2px solid var(--verde-escuro);
+    border-radius: 8px;
+    background-color: var(--creme);
+    color: var(--texto);
+    overflow-y: auto;
+}
+
+.dialogo::backdrop {
+    background-color: rgba(27, 58, 43, 0.6);
+}
+
+.conteudo-dialogo {
+    padding: 1.2em;
+}
+
+.cabecalho-dialogo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.cabecalho-dialogo h2 {
+    margin-bottom: 0;
+    margin-right: 0.5em;
+}
+
+.botao-fechar-dialogo {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    font-size: 1.6em;
+    line-height: 1;
+    color: var(--verde-escuro);
+    background-color: transparent;
+    border: 2px solid var(--verde-claro);
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.botao-fechar-dialogo:hover {
+    background-color: var(--verde-claro);
+}
+
+/* ---------- detalhes do produto (dentro do dialogo) ---------- */
+
+.detalhes-produto {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 1.2em;
+}
+
+.detalhes-produto img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.detalhes-produto .preco-produto {
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    color: var(--marrom);
+    font-size: 1.3em;
+}
+
+.categoria-produto {
+    font-size: 0.85em;
+    font-weight: bold;
+    color: var(--verde-medio);
+    margin-bottom: 0.4em;
+}
+
+.estoque-produto,
+.aviso-estoque {
+    font-size: 0.95em;
+    color: var(--marrom);
+}
